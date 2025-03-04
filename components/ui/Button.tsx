@@ -28,13 +28,13 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   const buttonStyle: StyleProp<ViewStyle> = [
     styles.button,
-    { backgroundColor: colors[variant] },
+    variant === 'primary' ? {backgroundColor: colors.primary, padding: 16} : {backgroundColor: 'transparent', borderColor: colors.primary, borderWidth: 2, padding: 15,},
     style,
   ];
 
   const combinedTextStyle: StyleProp<TextStyle> = [
     styles.text,
-    { color: textColor },
+    { color: textColor, fontFamily: 'Rubik_800ExtraBold' },
     textStyle,
   ];
 
@@ -51,8 +51,7 @@ const Button: React.FC<ButtonProps> = ({
 
 const styles = StyleSheet.create({
   button: {
-    padding: 16,
-    borderRadius: 8,
+    borderRadius: 12,
     alignItems: 'center',
     width: '100%'
   },

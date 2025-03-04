@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
 import {
@@ -29,6 +29,7 @@ export default function Index() {
   });
 
   const [appIsReady, setAppIsReady] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (fontsLoaded) {
@@ -49,21 +50,21 @@ export default function Index() {
 
   return (
     <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
-      <View style={{ paddingHorizontal: 16, flex: 1, justifyContent: 'space-between' }}>
-        <Link href="/auth/register" asChild>
-          <Text style={{ color: '#000', fontFamily: 'Rubik_800ExtraBold', }}>Ovo je test</Text>
-        </Link>
-        <Button
-          variant="secondary"
-          title="Click me"
-          onPress={() => console.log('Pressed')}
-          textColor="#fff"
-        />
+      <View style={{ flex: 1, justifyContent: 'space-between' }}>
+        <View></View>
         <View>
+          <Text style={{ fontFamily: 'Rubik_400Regular', fontSize: 16, color: '#DCE6EC', textAlign: 'center' }}>Postani programer. Promijeni svijet.</Text>
+        </View>
+        <View style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <Button
+            title="Započni"
+            textColor="#fff"
+            onPress={() => router.push('/auth/register')}
+          />
           <Button
             variant="secondary"
-            title="Zapocni"
-            onPress={() => console.log('Pressed')}
+            title="Već imam račun"
+            onPress={() => router.push('/auth/login')}
             textColor="#fff"
           />
         </View>

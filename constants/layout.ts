@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { colors } from './colors';
 
 export const layoutStyles = StyleSheet.create({
   container: {
@@ -8,6 +9,7 @@ export const layoutStyles = StyleSheet.create({
     alignSelf: 'center',
     paddingHorizontal: 16,
     paddingVertical: 20,
+    backgroundColor: colors.background
   },
   text: {
     color: '#fff',
