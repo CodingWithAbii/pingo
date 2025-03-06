@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import { useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
 import {
@@ -18,7 +18,7 @@ import { layoutStyles } from '@/constants/layout';
 // Sprečite automatsko skrivanje splash screen-a
 SplashScreen.preventAutoHideAsync();
 
-export default function Index() {
+export default function Register() {
   const [fontsLoaded] = useFonts({
     Rubik_300Light,
     Rubik_400Regular,
@@ -53,21 +53,15 @@ export default function Index() {
       <View style={{ flex: 1, justifyContent: 'space-between' }}>
         <View></View>
         <View>
-          <Text style={{ fontFamily: 'Rubik_400Regular', fontSize: 16, color: '#DCE6EC', textAlign: 'center' }}>Postani programer. Promijeni svijet.</Text>
+          <Text style={{ fontFamily: 'Rubik_400Regular', fontSize: 16, color: '#DCE6EC', textAlign: 'center' }}>Zdravo ja sam</Text>
         </View>
-        <View style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+       
           <Button
-            title="Započni"
+            title="Nastavi"
             textColor="#fff"
-            onPress={() => router.push('/auth/register')}
+            onPress={() => console.log('/auth/register')}
           />
-          <Button
-            variant="secondary"
-            title="Već imam račun"
-            onPress={() => router.push('/auth/login')}
-            textColor="#fff"
-          />
-        </View>
+          
       </View>
     </SafeAreaView>
   );

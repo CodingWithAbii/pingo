@@ -1,21 +1,6 @@
-import { Text, View,  StyleSheet } from 'react-native';
+import  Register from '@/components/Register'
 
 export default function Index() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Register</Text>
-    </View>
-  );
+  return <Register />;
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#25292e',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    color: '#fff',
-  },
-});
