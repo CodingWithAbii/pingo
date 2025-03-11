@@ -23,18 +23,18 @@ const Button: React.FC<ButtonProps> = ({
   onPress,
   style,
   textStyle,
-  textColor = colors.background,
+  textColor,
   ...props
 }) => {
   const buttonStyle: StyleProp<ViewStyle> = [
     styles.button,
-    variant === 'primary' ? {backgroundColor: colors.primary, padding: 16} : {backgroundColor: 'transparent', borderColor: colors.primary, borderWidth: 2, padding: 15,},
+    variant === 'primary' ? styles.primaryButton : styles.secondaryButton,
     style,
   ];
 
   const combinedTextStyle: StyleProp<TextStyle> = [
     styles.text,
-    { color: textColor, fontFamily: 'Rubik_800ExtraBold' },
+    {color: textColor, fontFamily: 'Rubik_800ExtraBold' },
     textStyle,
   ];
 
@@ -51,9 +51,22 @@ const Button: React.FC<ButtonProps> = ({
 
 const styles = StyleSheet.create({
   button: {
+    padding: 15,
     borderRadius: 12,
+    borderBottomWidth: 4,
     alignItems: 'center',
     width: '100%'
+  },
+  primaryButton: {
+    backgroundColor: colors.primary,
+    borderRightWidth: 1,
+    borderLeftWidth: 1, 
+    borderColor: colors.secondary
+  },
+  secondaryButton: {
+    backgroundColor: 'transparent',
+    borderWidth: 2,
+    borderColor: colors.primary
   },
   text: {
     fontWeight: 'bold',

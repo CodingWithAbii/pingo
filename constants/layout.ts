@@ -2,14 +2,24 @@ import { StyleSheet } from 'react-native';
 import { colors } from './colors';
 
 export const layoutStyles = StyleSheet.create({
-  container: {
+  container:{
     maxWidth: 1280,
     width: '100%',
     height: '100%',
     alignSelf: 'center',
     paddingHorizontal: 16,
-    paddingVertical: 20,
-    backgroundColor: colors.background
+    paddingBottom: 16,
+    paddingTop: 24,
+  },
+  darkBackground: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: colors.dark.background
+  },
+  lightBackground: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: colors.light.background
   },
   text: {
     color: '#fff',
