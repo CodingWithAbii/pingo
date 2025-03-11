@@ -32,7 +32,7 @@ export default function Index() {
   const [appIsReady, setAppIsReady] = useState(false);
   const router = useRouter();
   const background = colorScheme === 'light' ? layoutStyles.lightBackground : layoutStyles.darkBackground;
-  
+
   useEffect(() => {
     if (fontsLoaded) {
       setAppIsReady(true);
@@ -47,7 +47,7 @@ export default function Index() {
   }, [appIsReady]);
 
   if (!appIsReady) {
-    return null; // Možete vratiti prazan View ili neki loader
+    return <View style={background} />; // Možete vratiti prazan View ili neki loader
   }
 
   return (<View style={background}>
@@ -60,8 +60,8 @@ export default function Index() {
         <View style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <Button
             title="Započni"
-            textColor="#fff"
-            onPress={() => router.push('/auth/register')}
+            textColor={colors.light.background}
+            onPress={() => router.push('/auth/register?q=5')}
           />
           <Button
             variant="secondary"
@@ -72,6 +72,6 @@ export default function Index() {
         </View>
       </View>
     </SafeAreaView>
-    </View>
+  </View>
   );
 }

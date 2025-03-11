@@ -40,6 +40,7 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <TouchableOpacity
+    
       style={buttonStyle}
       onPress={onPress}
       {...props}
