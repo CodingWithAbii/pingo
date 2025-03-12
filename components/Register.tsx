@@ -202,15 +202,8 @@ export default function Register() {
               <TouchableOpacity onPress={handleBack} >
                 <ArrowLeft style={{ cursor: 'pointer' }} color={colorScheme === 'light' ? '#AFAFAF' : '#74797A'} />
               </TouchableOpacity>
-              <View style={colorScheme === 'dark' ? {
-                  backgroundColor: 'blue',
-                  flex: 1,
-                  marginRight: 300,
-                  height: 16
-              } : {
-
-              }}></View>
-            </View>
+              <Statusbar variant={colorScheme === 'dark' ? 'dark' : 'light'} value={20}/>
+              </View>
             <View style={{ display: 'flex', gap: 14, alignItems: 'flex-start', flexDirection: 'row', marginTop: 4 }}>
               <Image
                 source={require('../assets/images/pingo-standing.png')}
@@ -274,12 +267,12 @@ export default function Register() {
       <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
           <View style={{display: 'flex', gap: 16}}>
-            <View style={{ gap: 8, display: 'flex', justifyContent: 'center' }}>
+          <View style={{ gap: 24, display: 'flex', alignItems: 'center', flexDirection: 'row', width:'100%'}}>
               <TouchableOpacity onPress={handleBack} >
                 <ArrowLeft style={{ cursor: 'pointer' }} color={colorScheme === 'light' ? '#AFAFAF' : '#74797A'} />
               </TouchableOpacity>
-
-            </View>
+              <Statusbar variant={colorScheme === 'dark' ? 'dark' : 'light'} value={40}/>
+              </View>
             <View style={{ display: 'flex', gap: 14, alignItems: 'flex-start', flexDirection: 'row', marginTop: 4 }}>
               <Image
                 source={require('../assets/images/pingo-standing.png')}
@@ -343,12 +336,12 @@ export default function Register() {
       <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
           <View style={{display: 'flex', gap: 16}}>
-            <View style={{ gap: 8, display: 'flex', justifyContent: 'center' }}>
+          <View style={{ gap: 24, display: 'flex', alignItems: 'center', flexDirection: 'row', width:'100%'}}>
               <TouchableOpacity onPress={handleBack} >
                 <ArrowLeft style={{ cursor: 'pointer' }} color={colorScheme === 'light' ? '#AFAFAF' : '#74797A'} />
               </TouchableOpacity>
-
-            </View>
+              <Statusbar variant={colorScheme === 'dark' ? 'dark' : 'light'} value={20}/>
+              </View>
             <View style={{ display: 'flex', gap: 14, alignItems: 'flex-start', flexDirection: 'row', marginTop: 4 }}>
               <Image
                 source={require('../assets/images/pingo-standing.png')}
@@ -414,12 +407,12 @@ export default function Register() {
       <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
           <View style={{display: 'flex', gap: 16}}>
-            <View style={{ gap: 8, display: 'flex', justifyContent: 'center' }}>
+          <View style={{ gap: 24, display: 'flex', alignItems: 'center', flexDirection: 'row', width:'100%'}}>
               <TouchableOpacity onPress={handleBack} >
                 <ArrowLeft style={{ cursor: 'pointer' }} color={colorScheme === 'light' ? '#AFAFAF' : '#74797A'} />
               </TouchableOpacity>
-
-            </View>
+              <Statusbar variant={colorScheme === 'dark' ? 'dark' : 'light'} value={80}/>
+              </View>
             <View style={{ display: 'flex', gap: 14, alignItems: 'flex-start', flexDirection: 'row', marginTop: 4 }}>
               <Image
                 source={require('../assets/images/pingo-standing.png')}
@@ -484,12 +477,12 @@ export default function Register() {
       <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
           <View style={{display: 'flex', gap: 16}}>
-            <View style={{ gap: 8, display: 'flex', justifyContent: 'center' }}>
+          <View style={{ gap: 24, display: 'flex', alignItems: 'center', flexDirection: 'row', width:'100%'}}>
               <TouchableOpacity onPress={handleBack} >
                 <ArrowLeft style={{ cursor: 'pointer' }} color={colorScheme === 'light' ? '#AFAFAF' : '#74797A'} />
               </TouchableOpacity>
-
-            </View>
+              <Statusbar variant={colorScheme === 'dark' ? 'dark' : 'light'} value={100}/>
+              </View>
             <View style={{ display: 'flex', gap: 14, alignItems: 'flex-start', flexDirection: 'row', marginTop: 4 }}>
               <Image
                 source={require('../assets/images/pingo-standing.png')}
