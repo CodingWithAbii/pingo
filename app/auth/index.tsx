@@ -61,7 +61,7 @@ export default function Index() {
           <Button
             title="Započni"
             textColor={colors.light.background}
-            onPress={() => router.push('/auth/register?q=5')}
+            onPress={() => router.push('/auth/register?q=0')}
           />
           <Button
             variant="secondary"

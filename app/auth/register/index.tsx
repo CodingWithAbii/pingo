@@ -1,3 +1,11 @@
+import Register from '@/components/Register'
+
+export default function Index() {
+  return <Register />;
+}
+
+/*
+
 import Animated, {
   useSharedValue,
   withTiming,
@@ -46,11 +54,5 @@ const styles = StyleSheet.create({
     margin: 30,
   },
 });
-
-/*import Register from '@/components/Register'
-
-export default function Index() {
-  return <Register />;
-}
 
 */

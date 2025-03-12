@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Text, View, StyleSheet, useColorScheme } from 'react-native';
+import { Text, View, StyleSheet, useColorScheme, TouchableOpacity } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
@@ -15,12 +15,13 @@ import {
 import Button from '@/components/ui/Button';
 import { layoutStyles } from '@/constants/layout';
 import { colors } from '@/constants/colors';
+import { ArrowLeft } from 'lucide-react-native'
 
 // Sprečite automatsko skrivanje splash screen-a
 SplashScreen.preventAutoHideAsync();
 
 export default function Register() {
-  const params = useLocalSearchParams();
+  const { q } = useLocalSearchParams<{ q?: string }>();
 
   const [fontsLoaded] = useFonts({
     Rubik_300Light,
@@ -34,6 +35,23 @@ export default function Register() {
   const [appIsReady, setAppIsReady] = useState(false);
   const router = useRouter();
   const background = colorScheme === 'light' ? layoutStyles.lightBackground : layoutStyles.darkBackground;
+
+  const handleBack = () => {
+    
+    if(Number(q) === 0){
+      if(router.canGoBack()){
+        router.back();
+      }else{
+        router.push('/auth');
+      }
+    }else{
+      const br = Number(q)-1
+      router.push({
+        pathname: '/auth/register',
+        params: { q: br.toString() },
+      })
+    }
+  }
 
   useEffect(() => {
     if (fontsLoaded) {
@@ -51,28 +69,31 @@ export default function Register() {
   if (!appIsReady) {
     return <View style={background} />; // Možete vratiti prazan View ili neki loader
   }
-  
-    return (<View style={background}>
-      <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
-        <View style={{ flex: 1, justifyContent: 'space-between' }}>
-        <Button
-              title="Nazad"
-              textColor={colors.light.background}
-              
-            />
-          <View>
-            <Text style={{ fontFamily: 'Rubik_400Regular', fontSize: 16, color: '#000', textAlign: 'center' }}>Ovo je za prvo</Text>
-          </View>
-          <View style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <Button
-              title={params.q.toString()}
-              textColor={colors.light.background}
-              onPress={()=>router.push('/auth/register?q=6')}
-            />
-          </View>
+
+  return (<View style={background}>
+    <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
+      <View style={{ flex: 1, justifyContent: 'space-between' }}>
+        <View style={{ flex: 1, gap: 8 }}>
+        <TouchableOpacity  onPress={handleBack} >
+          <ArrowLeft style={{cursor:'pointer'}} color={colorScheme === 'light' ? '#AFAFAF' : '#74797A'}/>
+          </TouchableOpacity>
         </View>
-      </SafeAreaView>
-    </View>
-    );
-  
+        <View>
+          <Text style={{ fontFamily: 'Rubik_400Regular', fontSize: 16, color: '#000', textAlign: 'center' }}>Ovo je za prvo</Text>
+        </View>
+        <View style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <Button
+            title='Nastavi'
+            textColor={colors.light.background}
+            onPress={() => router.push({
+              pathname: '/auth/register',
+              params: { q: q },
+            })}
+          />
+        </View>
+      </View>
+    </SafeAreaView>
+  </View>
+  );
+
 }
