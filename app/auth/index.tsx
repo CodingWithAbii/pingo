@@ -15,6 +15,7 @@ import {
 import Button from '@/components/ui/Button';
 import { layoutStyles } from '@/constants/layout';
 import { colors } from '@/constants/colors';
+import { Image } from 'expo-image';
 
 // Sprečite automatsko skrivanje splash screen-a
 SplashScreen.preventAutoHideAsync();
@@ -54,8 +55,13 @@ export default function Index() {
     <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
       <View style={{ flex: 1, justifyContent: 'space-between' }}>
         <View></View>
-        <View>
-          <Text style={{ fontFamily: 'Rubik_400Regular', fontSize: 16, color: '#DCE6EC', textAlign: 'center' }}>Postani programer. Promijeni svijet.</Text>
+        <View style={{flex: 1, flexDirection: 'column', gap: 14, alignItems:'center', justifyContent: 'center'}}>
+          <Image 
+            source={require('../../assets/images/pingo-standing.png')}
+            style={{ width: 132, height: 137 }}
+          />  
+          <Text style={{color:colors.primary, fontSize: 56, fontFamily: 'Rubik_800ExtraBold'}}>PINGO</Text>
+          <Text style={{ fontFamily: 'Rubik_400Regular', fontSize: 16, color: colorScheme === 'light' ? '#162227' : '#DCE6EC' }}>Postani programer. Promijeni svijet.</Text>
         </View>
         <View style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <Button

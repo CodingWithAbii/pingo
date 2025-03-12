@@ -15,7 +15,7 @@ import {
 import Button from '@/components/ui/Button';
 import { layoutStyles } from '@/constants/layout';
 import { colors } from '@/constants/colors';
-import { ArrowLeft } from 'lucide-react-native'
+import { ArrowLeft } from 'lucide-react-native';
 
 // Sprečite automatsko skrivanje splash screen-a
 SplashScreen.preventAutoHideAsync();
@@ -37,20 +37,27 @@ export default function Register() {
   const background = colorScheme === 'light' ? layoutStyles.lightBackground : layoutStyles.darkBackground;
 
   const handleBack = () => {
-    
-    if(Number(q) === 0){
-      if(router.canGoBack()){
+    if (Number(q) === 0) {
+      if (router.canGoBack()) {
         router.back();
-      }else{
+      } else {
         router.push('/auth');
       }
-    }else{
-      const br = Number(q)-1
+    } else {
+      const br = Number(q) - 1
       router.push({
         pathname: '/auth/register',
         params: { q: br.toString() },
       })
     }
+  }
+
+  const handleNext = () => {
+    const br = Number(q) + 1
+    router.push({
+      pathname: '/auth/register',
+      params: { q: br.toString() },
+    })
   }
 
   useEffect(() => {
@@ -70,30 +77,54 @@ export default function Register() {
     return <View style={background} />; // Možete vratiti prazan View ili neki loader
   }
 
-  return (<View style={background}>
-    <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
-      <View style={{ flex: 1, justifyContent: 'space-between' }}>
-        <View style={{ flex: 1, gap: 8 }}>
-        <TouchableOpacity  onPress={handleBack} >
-          <ArrowLeft style={{cursor:'pointer'}} color={colorScheme === 'light' ? '#AFAFAF' : '#74797A'}/>
-          </TouchableOpacity>
+  if(Number(q) === 0){
+    return (<View style={background}>
+      <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
+        <View style={{ flex: 1, justifyContent: 'space-between' }}>
+          <View style={{ gap: 8 }}>
+            <TouchableOpacity onPress={handleBack} >
+              <ArrowLeft style={{ cursor: 'pointer' }} color={colorScheme === 'light' ? '#AFAFAF' : '#74797A'} />
+            </TouchableOpacity>
+          </View>
+          <View>
+            <Text style={{ fontFamily: 'Rubik_400Regular', fontSize: 16, color: '#000', textAlign: 'center' }}>Ovo je za prvo</Text>
+          </View>
+          <View style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <Button
+              title='Nastavi'
+              textColor={colors.light.background}
+              onPress={handleNext}
+            />
+          </View>
         </View>
-        <View>
-          <Text style={{ fontFamily: 'Rubik_400Regular', fontSize: 16, color: '#000', textAlign: 'center' }}>Ovo je za prvo</Text>
+      </SafeAreaView>
+    </View>
+    );
+  } else if(Number(q) === 1){
+    return (<View style={background}>
+      <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
+        <View style={{ flex: 1, justifyContent: 'space-between' }}>
+          <View style={{ gap: 8 }}>
+            <TouchableOpacity onPress={handleBack} >
+              <ArrowLeft style={{ cursor: 'pointer' }} color={colorScheme === 'light' ? '#AFAFAF' : '#74797A'} />
+            </TouchableOpacity>
+          </View>
+          <View>
+            <Text style={{ fontFamily: 'Rubik_400Regular', fontSize: 16, color: '#000', textAlign: 'center' }}>Ovo je za drugi</Text>
+          </View>
+          <View style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <Button
+              title='Nastavi'
+              textColor={colors.light.background}
+              onPress={handleNext}
+            />
+          </View>
         </View>
-        <View style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <Button
-            title='Nastavi'
-            textColor={colors.light.background}
-            onPress={() => router.push({
-              pathname: '/auth/register',
-              params: { q: q },
-            })}
-          />
-        </View>
-      </View>
-    </SafeAreaView>
-  </View>
-  );
+      </SafeAreaView>
+    </View>
+    );
+  }
+
+ 
 
 }
