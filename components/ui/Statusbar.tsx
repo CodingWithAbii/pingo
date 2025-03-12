@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   Text,
   StyleSheet,
@@ -7,34 +8,34 @@ import {
 } from 'react-native';
 import { colors, ColorVariants } from '../../constants/colors';
 
-type ChatProps = ViewProps & {
+type StatusbarProps = ViewProps & {
   variant?: string;
+  value: number;
 };
 
-const Chat = ({ children, variant }: ChatProps) => {
-
-
+const Statusbar = ({ value, variant }: StatusbarProps) => {
   return (
-    <View style={styles.container}>
-      <Text style={variant === 'dark' ? styles.dark : styles.light }>{children}</Text>
+    <View style={styles.darkContainer}>
+      <View></View>
     </View>
   )
 };
 
 const styles = StyleSheet.create({
-  container: {
+  darkContainer: {
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-
-  dark: {
-    borderColor: '#37464F',
-    borderWidth: 2,
+    height: 12,
+    width: '100%',
     borderRadius: 12,
-    paddingHorizontal: 18,
-    paddingVertical: 15,
-    color: '#F1F7FB',
+    backgroundColor: '#37464F',
+    paddingRight: 340
+  },
+  lightContainer: {
+    display: 'flex',
+    height: 56,
+    width: '100%',
+    borderRadius: 12,
+    backgroundColor: '#E5E5E5'
   },
 
   light: {
@@ -47,4 +48,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Chat;
+export default Statusbar;

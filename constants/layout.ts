@@ -3,7 +3,7 @@ import { colors } from './colors';
 
 export const layoutStyles = StyleSheet.create({
   container:{
-    maxWidth: 1280,
+    maxWidth: 880,
     width: '100%',
     height: '100%',
     alignSelf: 'center',
