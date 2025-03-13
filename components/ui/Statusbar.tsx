@@ -15,27 +15,27 @@ type StatusbarProps = ViewProps & {
 
 const Statusbar = ({ value, variant }: StatusbarProps) => {
   return (
-    <Text style={variant === 'dark' ? styles.darkContainer: styles.lightContainer}>
+    <Text style={{width: '100%'}}>
+    <View style={variant === 'dark' ? styles.darkContainer: styles.lightContainer}>
       <Text style={{
         display: 'flex',
-        width: '20%',
+        width: `${value}%`,
         borderRadius: 12,
         height: 14,
         backgroundColor: colors.secondary,
         paddingLeft: 8,
         paddingRight: 12,
         paddingTop: 4,
-        zIndex: 50
       }}>
-        <Text style={{
+        <View style={{
         display: 'flex',
         width: '100%',
         borderRadius: 12,
         height: 4,
         backgroundColor: colors.primary,
-        zIndex: 40
-      }}></Text>
+      }}></View>
         </Text>    
+    </View>
     </Text>
   )
 };

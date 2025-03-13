@@ -196,7 +196,7 @@ export default function Register() {
   } else if (Number(q) === 2) {
     return (<View style={background}>
       <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
-        <View style={{ flex: 1, justifyContent: 'space-between' }}>
+        <View style={{display: 'flex', justifyContent: 'space-between', height:'100%' }}>
           <View style={{display: 'flex', gap: 16}}>
             <View style={{ gap: 24, display: 'flex', alignItems: 'center', flexDirection: 'row', width:'100%'}}>
               <TouchableOpacity onPress={handleBack} >
@@ -340,7 +340,7 @@ export default function Register() {
               <TouchableOpacity onPress={handleBack} >
                 <ArrowLeft style={{ cursor: 'pointer' }} color={colorScheme === 'light' ? '#AFAFAF' : '#74797A'} />
               </TouchableOpacity>
-              <Statusbar variant={colorScheme === 'dark' ? 'dark' : 'light'} value={20}/>
+              <Statusbar variant={colorScheme === 'dark' ? 'dark' : 'light'} value={60}/>
               </View>
             <View style={{ display: 'flex', gap: 14, alignItems: 'flex-start', flexDirection: 'row', marginTop: 4 }}>
               <Image
@@ -443,14 +443,14 @@ export default function Register() {
 
               <View style={{display: 'flex', flexDirection: 'column'}}>
               <TextInput
-                style={{borderColor: colorScheme === 'light' ? '#E5E5E5' : '#37464F', borderWidth: 2, borderTopLeftRadius: 12, borderTopRightRadius: 12, paddingHorizontal: 21, paddingVertical: 16, borderBottomWidth: 1}}
+                style={{borderColor: colorScheme === 'light' ? '#E5E5E5' : '#37464F', color: colorScheme === 'light' ? '#000' : '#fff', borderWidth: 2, borderTopLeftRadius: 12, borderTopRightRadius: 12, paddingHorizontal: 21, paddingVertical: 16, borderBottomWidth: 1}}
                 placeholder="Ime"
                 placeholderTextColor="#888"
                 value={firstname}
                 onChangeText={setFirstName}
               />
                <TextInput
-                style={{borderColor: colorScheme === 'light' ? '#E5E5E5' : '#37464F', borderWidth: 2, borderBottomLeftRadius: 12, borderBottomRightRadius: 12, paddingHorizontal: 21, paddingVertical: 16, borderBottomWidth: 1}}
+                style={{borderColor: colorScheme === 'light' ? '#E5E5E5' : '#37464F', color: colorScheme === 'light' ? '#000' : '#fff', borderWidth: 2, borderBottomLeftRadius: 12, borderBottomRightRadius: 12, paddingHorizontal: 21, paddingVertical: 16, borderBottomWidth: 1}}
                 placeholder="Prezime"
                 placeholderTextColor="#888"
                 value={lastname}
@@ -513,14 +513,14 @@ export default function Register() {
 
               <View style={{display: 'flex', flexDirection: 'column'}}>
               <TextInput
-                style={{borderColor: colorScheme === 'light' ? '#E5E5E5' : '#37464F', borderWidth: 2, borderTopLeftRadius: 12, borderTopRightRadius: 12, paddingHorizontal: 21, paddingVertical: 16, borderBottomWidth: 1}}
+                style={{borderColor: colorScheme === 'light' ? '#E5E5E5' : '#37464F',  borderWidth: 2, borderTopLeftRadius: 12, borderTopRightRadius: 12, paddingHorizontal: 21, paddingVertical: 16, borderBottomWidth: 1}}
                 placeholder="Email"
                 placeholderTextColor="#888"
                 value={email}
                 onChangeText={setEmail}
               />
                <TextInput
-                style={{borderColor: colorScheme === 'light' ? '#E5E5E5' : '#37464F', borderWidth: 2, borderBottomLeftRadius: 12, borderBottomRightRadius: 12, paddingHorizontal: 21, paddingVertical: 16, borderBottomWidth: 1}}
+                style={{borderColor: colorScheme === 'light' ? '#E5E5E5' : '#37464F',  borderWidth: 2, borderBottomLeftRadius: 12, borderBottomRightRadius: 12, paddingHorizontal: 21, paddingVertical: 16, borderBottomWidth: 1}}
                 placeholder="Lozinka"
                 placeholderTextColor="#888"
                 secureTextEntry={true}
