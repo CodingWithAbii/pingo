@@ -33,6 +33,7 @@ export default function Register() {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
 
+
   const { q } = useLocalSearchParams<{ q?: string }>();
 
   const [fontsLoaded] = useFonts({
@@ -196,7 +197,7 @@ export default function Register() {
   } else if (Number(q) === 2) {
     return (<View style={background}>
       <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
-        <View style={{display: 'flex', justifyContent: 'space-between', height:'100%' }}>
+        <View style={{display: 'flex', justifyContent: 'space-between', height:'100%', backgroundColor: 'red' }}>
           <View style={{display: 'flex', gap: 16}}>
             <View style={{ gap: 24, display: 'flex', alignItems: 'center', flexDirection: 'row', width:'100%'}}>
               <TouchableOpacity onPress={handleBack} >
@@ -518,6 +519,7 @@ export default function Register() {
                 placeholderTextColor="#888"
                 value={email}
                 onChangeText={setEmail}
+               
               />
                <TextInput
                 style={{borderColor: colorScheme === 'light' ? '#E5E5E5' : '#37464F',  borderWidth: 2, borderBottomLeftRadius: 12, borderBottomRightRadius: 12, paddingHorizontal: 21, paddingVertical: 16, borderBottomWidth: 1}}

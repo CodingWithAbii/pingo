@@ -18,6 +18,7 @@ import { colors } from '@/constants/colors';
 import { ArrowLeft } from 'lucide-react-native';
 import { Image } from 'expo-image';
 import Chat from '@/components/ui/Chat'
+import CourseCard from '@/components/ui/CourseCard';
 // import CourseCard from '@/components/ui/CourseCard'
 import Statusbar from '@/components/ui/Statusbar'
 
@@ -88,8 +89,23 @@ import Statusbar from '@/components/ui/Statusbar'
                               fontSize: 14,
                               color: '#4B4B4B',
                               maxWidth: 250
-                            }}>Koja strana programiranja te najviše privlači?</Text>
+                            }}>Što želiš naučiti? Uvijek možeš promijeniti smjer!</Text>
+
+                      
+
             </View>
+            <CourseCard
+                        title="Osnovni web razvoj"
+                        description="Nauči HTML, CSS i JavaScript od temelja"
+                        image={require("../../../assets/images/courses/HtmlCssJs.png")} 
+                        onPress={() => console.log("Course Clicked")}
+              />
+            <CourseCard
+                        title="Napredniji web razvoj"
+                        description="Savladaj moderne front-end tehnologije"
+                        image={require("../../../assets/images/courses/frameworks.png")} 
+                        onPress={() => console.log("Course Clicked")}
+              />
           </View>
           </View>
         </SafeAreaView>
