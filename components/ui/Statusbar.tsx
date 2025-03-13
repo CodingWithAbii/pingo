@@ -15,7 +15,6 @@ type StatusbarProps = ViewProps & {
 
 const Statusbar = ({ value, variant }: StatusbarProps) => {
   return (
-    <Text style={{width: '100%'}}>
     <View style={variant === 'dark' ? styles.darkContainer: styles.lightContainer}>
       <Text style={{
         display: 'flex',
@@ -36,15 +35,14 @@ const Statusbar = ({ value, variant }: StatusbarProps) => {
       }}></View>
         </Text>    
     </View>
-    </Text>
   )
 };
 
 const styles = StyleSheet.create({
   darkContainer: {
     display: 'flex',
+    flexGrow: 1,
     height: 14,
-    width: '100%',
     borderRadius: 12,
     backgroundColor: '#37464F',
     overflow: 'hidden'
@@ -53,7 +51,7 @@ const styles = StyleSheet.create({
   lightContainer: {
     display: 'flex',
     height: 14,
-    width: '100%',
+    flexGrow: 1,
     borderRadius: 12,
     backgroundColor: '#E5E5E5'
   },
