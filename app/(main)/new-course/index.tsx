@@ -22,94 +22,113 @@ import CourseCard from '@/components/ui/CourseCard';
 // import CourseCard from '@/components/ui/CourseCard'
 import Statusbar from '@/components/ui/Statusbar'
 
-  export default function index() {
+export default function index() {
 
-    interface CourseCard {
-      id: number;
-      title: string;
-      icon?: any; // Opcionalni prop za ikone
-    }
-
-    // Sprečite automatsko skrivanje splash screen-a
-      SplashScreen.preventAutoHideAsync();
-
-      const colorScheme = useColorScheme();
-      const [appIsReady, setAppIsReady] = useState(false);
-      const router = useRouter();
-      const background = colorScheme === 'light' ? layoutStyles.lightBackground : layoutStyles.darkBackground;
-
-      const onLayoutRootView = useCallback(async () => {
-        if (appIsReady) {
-          // Sakrijte splash screen kada su fontovi učitani
-          await SplashScreen.hideAsync();
-        }
-      }, [appIsReady]);
-      
-    const { q } = useLocalSearchParams<{ q?: string }>();
-    const [fontsLoaded] = useFonts({
-        Rubik_300Light,
-        Rubik_400Regular,
-        Rubik_500Medium,
-        Rubik_600SemiBold,
-        Rubik_700Bold,
-        Rubik_800ExtraBold,
-      });
-
-  
-      return (<View style={background}>
-
-        <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
-        <View style={{ flex: 1, justifyContent: 'space-between' }}>
-          <View style={{display: 'flex', gap: 16}}>
-            <View style={{ gap: 8, display: 'flex', justifyContent: 'center' }}>
-
-            </View>
-            <View style={{ display: 'flex', gap: 14, alignItems: 'flex-start', flexDirection: 'row', marginTop: 4 }}>
-              <Image
-                source={require('../../../assets/images/pingo-standing.png')}
-                style={{ width: 82, height: 85 }}
-              />
-              <Text style={colorScheme === 'dark' ? {
-                              marginTop: 5,
-                              borderColor: '#37464F',
-                              borderWidth: 2,
-                              borderRadius: 12,
-                              paddingHorizontal: 16,
-                              paddingVertical: 10,
-                              fontSize: 13,
-                              color: '#F1F7FB',
-                              maxWidth: 250
-                            } : {
-                              marginTop: 5,
-                              borderColor: '#E5E5E5',
-                              borderWidth: 2,
-                              borderRadius: 12,
-                              paddingHorizontal: 16,
-                              paddingVertical: 10,
-                              fontSize: 14,
-                              color: '#4B4B4B',
-                              maxWidth: 250
-                            }}>Što želiš naučiti? Uvijek možeš promijeniti smjer!</Text>
-
-                      
-
-            </View>
-            <CourseCard
-                        title="Osnovni web razvoj"
-                        description="Nauči HTML, CSS i JavaScript od temelja"
-                        image={require("../../../assets/images/courses/HtmlCssJs.png")} 
-                        onPress={() => console.log("Course Clicked")}
-              />
-            <CourseCard
-                        title="Napredniji web razvoj"
-                        description="Savladaj moderne front-end tehnologije"
-                        image={require("../../../assets/images/courses/frameworks.png")} 
-                        onPress={() => console.log("Course Clicked")}
-              />
-          </View>
-          </View>
-        </SafeAreaView>
-      </View>
-      );
-
+  interface CourseCard {
+    id: number;
+    title: string;
+    icon?: any; // Opcionalni prop za ikone
   }
+
+  // Sprečite automatsko skrivanje splash screen-a
+  SplashScreen.preventAutoHideAsync();
+
+  const colorScheme = useColorScheme();
+  const [appIsReady, setAppIsReady] = useState(false);
+  const router = useRouter();
+  const background = colorScheme === 'light' ? layoutStyles.lightBackground : layoutStyles.darkBackground;
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      // Sakrijte splash screen kada su fontovi učitani
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  const { q } = useLocalSearchParams<{ q?: string }>();
+  const [fontsLoaded] = useFonts({
+    Rubik_300Light,
+    Rubik_400Regular,
+    Rubik_500Medium,
+    Rubik_600SemiBold,
+    Rubik_700Bold,
+    Rubik_800ExtraBold,
+  });
+
+
+  return (<View style={background}>
+
+    <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
+      <View style={{ flex: 1, justifyContent: 'space-between' }}>
+        <View style={{ display: 'flex', gap: 16 }}>
+          <View style={{ gap: 8, display: 'flex', justifyContent: 'center' }}>
+
+          </View>
+          <View style={{ display: 'flex', gap: 14, alignItems: 'flex-start', flexDirection: 'row', marginTop: 4 }}>
+            <Image
+              source={require('../../../assets/images/pingo-standing.png')}
+              style={{ width: 82, height: 85 }}
+            />
+            <Text style={colorScheme === 'dark' ? {
+              marginTop: 5,
+              borderColor: '#37464F',
+              borderWidth: 2,
+              borderRadius: 12,
+              paddingHorizontal: 16,
+              paddingVertical: 10,
+              fontSize: 13,
+              color: '#F1F7FB',
+              maxWidth: 250
+            } : {
+              marginTop: 5,
+              borderColor: '#E5E5E5',
+              borderWidth: 2,
+              borderRadius: 12,
+              paddingHorizontal: 16,
+              paddingVertical: 10,
+              fontSize: 14,
+              color: '#4B4B4B',
+              maxWidth: 250
+            }}>Što želiš naučiti? Uvijek možeš promijeniti smjer!</Text>
+
+
+
+          </View>
+          <Text style={colorScheme === 'dark' ? {
+              marginTop: 5,
+              borderColor: '#37464F',
+              fontFamily: 'Rubik_700Bold',
+              paddingTop: 10,
+              fontSize: 20,
+              color: '#F1F7FB',
+              maxWidth: 250,
+            } : {
+              marginTop: 5,
+              borderColor: '#E5E5E5',
+              fontFamily: 'Rubik_700Bold',
+              paddingTop: 10,
+              fontSize: 20,
+              color: '#4B4B4B',
+              maxWidth: 250
+            }}>Kursevi</Text>
+          <CourseCard
+            variant={colorScheme === 'dark' ? 'dark' : 'light'}
+            title="Osnovni web razvoj"
+            description="Nauči HTML, CSS i JavaScript od temelja"
+            image={require("../../../assets/images/courses/HtmlCssJs.png")}
+            onPress={() => router.push('/home')}
+          />
+          <CourseCard
+            variant={colorScheme === 'dark' ? 'dark' : 'light'}
+            title="Napredniji web razvoj"
+            description="Savladaj moderne front-end tehnologije"
+            image={require("../../../assets/images/courses/frameworks.png")}
+            onPress={() => console.log("Course Clicked")}
+          />
+        </View>
+      </View>
+    </SafeAreaView>
+  </View>
+  );
+
+}

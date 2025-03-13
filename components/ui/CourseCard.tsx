@@ -9,54 +9,70 @@ import {
 import { Image } from "expo-image";
 
 type CourseProps = ViewProps & {
+  variant: string;
   title: string;
   description: string;
   image: any;
   onPress?: () => void;
 };
 
-const CourseCard: React.FC<CourseProps> = ({ title, description, image, onPress }) => {
+const CourseCard: React.FC<CourseProps> = ({ title, description, image, onPress, variant }) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.card}>
+    <TouchableOpacity onPress={onPress} style={ variant === 'dark' ? styles.darkcard : styles.lightcard}>
       <Image source={image} style={styles.image} />
       <View style={styles.textContainer}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.description}>{description}</Text>
+        <Text style={ variant === 'dark' ? styles.darktitle : styles.lighttitle}>{title}</Text>
+        <Text style={variant === 'dark' ? styles.darkdescription : styles.lightdescription}>{description}</Text>
       </View>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  card: {
+  lightcard: {
     width: "100%",
     backgroundColor: "#fff",
     borderRadius: 12,
     overflow: "hidden",
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: "#E5E5E5",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2, // Za Android senku
+    borderBottomWidth: 4
+  },
+  darkcard: {
+    width: "100%",
+    backgroundColor: '#131F24',
+    borderRadius: 12,
+    overflow: "hidden",
+    borderWidth: 2,
+    borderColor: "#37464F",
+    borderBottomWidth: 4
   },
   image: {
     width: "100%",
-    height: 140, // Dodao fiksnu visinu da ne bude linija
-    backgroundColor: "#ddd",
+    height: 140,
   },
   textContainer: {
     padding: 12,
   },
-  title: {
+  lighttitle: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#000",
+    color: "#4B4B4B",
   },
-  description: {
+  darktitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#B8BCBD",
+  },
+  lightdescription: {
+
     fontSize: 14,
     color: "#4B4B4B",
+    marginTop: 4,
+  },
+   darkdescription: {
+    fontSize: 14,
+    color: "#B8BCBD",
     marginTop: 4,
   },
 });

@@ -20,6 +20,7 @@ import { Image } from 'expo-image';
 import Chat from '@/components/ui/Chat'
 import Option from '@/components/ui/Option'
 import Statusbar from '@/components/ui/Statusbar'
+//import { supabase } from '@/lib/supabase';
 
 // Sprečite automatsko skrivanje splash screen-a
 SplashScreen.preventAutoHideAsync();
@@ -32,6 +33,8 @@ export default function Register() {
   const [lastname, setLastName ] = useState<string>('')
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   const navigation = useNavigation();
 
@@ -89,6 +92,24 @@ export default function Register() {
       ]
     }
   ]
+
+ /* const handleSignUp = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+      if (error) throw error;
+      alert('Check your email for confirmation!');
+    } catch (error: any) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+      router.push('/')
+    }
+  };*/
 
   const handleBack = () => {
     if (Number(q) === 0) {
@@ -537,10 +558,11 @@ export default function Register() {
 
             <View style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <Button
-                title='Nastavi'
+                title={loading ? "Ucitavanje..." : "Nastavi"}
                 textColor={colors.light.background}
-                onPress={handleNext}
+                onPress={()=>console.log('')/*handleSignUp*/}
               />
+              {error && <Text style={{ color: 'red' }}>{error}</Text>}
             </View>
           </View>
         
