@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Text, View, StyleSheet, useColorScheme, TouchableOpacity, TextInput } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
 import {
@@ -33,6 +33,7 @@ export default function Register() {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
 
+  const navigation = useNavigation();
 
   const { q } = useLocalSearchParams<{ q?: string }>();
 
@@ -91,13 +92,14 @@ export default function Register() {
 
   const handleBack = () => {
     if (Number(q) === 0) {
-      router.push('/auth');
+      router.back()
     } else {
-      const br = Number(q) - 1
+      /*const br = Number(q) - 1
       router.push({
         pathname: '/auth/register',
         params: { q: br.toString() },
-      })
+      })*/
+     router.back()
     }
   }
 
@@ -197,9 +199,9 @@ export default function Register() {
   } else if (Number(q) === 2) {
     return (<View style={background}>
       <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
-        <View style={{display: 'flex', justifyContent: 'space-between', height:'100%', backgroundColor: 'red' }}>
-          <View style={{display: 'flex', gap: 16}}>
-            <View style={{ gap: 24, display: 'flex', alignItems: 'center', flexDirection: 'row', width:'100%'}}>
+        <View style={{display: 'flex', justifyContent: 'space-between', height:'100%', width: '100%' }}>
+          <View style={{display: 'flex',  width: '100%', gap: 16}}>
+            <View style={{ display: 'flex', gap: 24, alignItems: 'center', flexDirection: 'row', width:'100%'}}>
               <TouchableOpacity onPress={handleBack} >
                 <ArrowLeft style={{ cursor: 'pointer' }} color={colorScheme === 'light' ? '#AFAFAF' : '#74797A'} />
               </TouchableOpacity>
@@ -451,7 +453,7 @@ export default function Register() {
                 onChangeText={setFirstName}
               />
                <TextInput
-                style={{borderColor: colorScheme === 'light' ? '#E5E5E5' : '#37464F', color: colorScheme === 'light' ? '#000' : '#fff', borderWidth: 2, borderBottomLeftRadius: 12, borderBottomRightRadius: 12, paddingHorizontal: 21, paddingVertical: 16, borderBottomWidth: 1}}
+                style={{borderColor: colorScheme === 'light' ? '#E5E5E5' : '#37464F', color: colorScheme === 'light' ? '#000' : '#fff', borderWidth: 2, borderBottomLeftRadius: 12, borderBottomRightRadius: 12, paddingHorizontal: 21, paddingVertical: 16, borderTopWidth: 1}}
                 placeholder="Prezime"
                 placeholderTextColor="#888"
                 value={lastname}
@@ -514,7 +516,7 @@ export default function Register() {
 
               <View style={{display: 'flex', flexDirection: 'column'}}>
               <TextInput
-                style={{borderColor: colorScheme === 'light' ? '#E5E5E5' : '#37464F',  borderWidth: 2, borderTopLeftRadius: 12, borderTopRightRadius: 12, paddingHorizontal: 21, paddingVertical: 16, borderBottomWidth: 1}}
+                style={{borderColor: colorScheme === 'light' ? '#E5E5E5' : '#37464F', color: colorScheme === 'light' ? '#000' : '#fff',  borderWidth: 2, borderTopLeftRadius: 12, borderTopRightRadius: 12, paddingHorizontal: 21, paddingVertical: 16, borderBottomWidth: 1}}
                 placeholder="Email"
                 placeholderTextColor="#888"
                 value={email}
@@ -522,7 +524,7 @@ export default function Register() {
                
               />
                <TextInput
-                style={{borderColor: colorScheme === 'light' ? '#E5E5E5' : '#37464F',  borderWidth: 2, borderBottomLeftRadius: 12, borderBottomRightRadius: 12, paddingHorizontal: 21, paddingVertical: 16, borderBottomWidth: 1}}
+                style={{borderColor: colorScheme === 'light' ? '#E5E5E5' : '#37464F', color: colorScheme === 'light' ? '#000' : '#fff',  borderWidth: 2, borderBottomLeftRadius: 12, borderBottomRightRadius: 12, paddingHorizontal: 21, paddingVertical: 16, borderTopWidth: 1}}
                 placeholder="Lozinka"
                 placeholderTextColor="#888"
                 secureTextEntry={true}
