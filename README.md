@@ -4,13 +4,20 @@ Ovo je [Expo](https://expo.dev) projekat kreiran sa [`create-expo-app`](https://
 
 ## Početak
 
-1. Instalirajte zavisnosti
+1. Klonirajte repozitorij
+
+    ```bash
+    git clone https://github.com/CodingWithAbii/pingo.git
+    cd pingo
+    ```
+
+2. Instalirajte zavisnosti
 
     ```bash
     npm install
     ```
 
-2. Pokrenite aplikaciju
+3. Pokrenite aplikaciju
 
     ```bash
     npx expo start
