@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Text, View, StyleSheet, useColorScheme, TouchableOpacity, TextInput } from 'react-native';
-import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
+import { Text, View, StyleSheet, useColorScheme, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
 import {
@@ -17,30 +17,55 @@ import { layoutStyles } from '@/constants/layout';
 import { colors } from '@/constants/colors';
 import { ArrowLeft } from 'lucide-react-native';
 import { Image } from 'expo-image';
-import Chat from '@/components/ui/Chat'
-import Option from '@/components/ui/Option'
 import Statusbar from '@/components/ui/Statusbar'
 import MsgPage from './MsgPage';
 import OptPage from './OptPage';
+import { signIn, signUp } from '@/lib/auth';
 //import { supabase } from '@/lib/supabase';
 
 // Sprečite automatsko skrivanje splash screen-a
 SplashScreen.preventAutoHideAsync();
 
 export default function Register() {
-  const [first, setFirst] = useState<Number>(1)
-  const [second, setSecond] = useState<Number>(1)
-  const [third, setThird] = useState<Number>(1)
-  const [firstname, setFirstName ] = useState<string>('')
-  const [lastname, setLastName ] = useState<string>('')
+  const { q, r, e, s, fn, ln } = useLocalSearchParams<{ q?: string, r?: string, e?: string, s?: string, fn?: string, ln?: string}>();
+  const [reason, setReason] = useState<number>(() => {
+    const parsedR = parseInt(r || '1', 10);
+    return parsedR >= 1 && parsedR <= 5 ? parsedR : 1;
+  })
+  const [experience, setExperience] = useState<number>(() => {
+    const parsedE = parseInt(e || '1', 10);
+    return parsedE >= 1 && parsedE <= 3 ? parsedE : 1;
+  })
+  const [side, setSide] = useState<number>(() => {
+    const parsedE = parseInt(s || '1', 10);
+    return parsedE >= 1 && parsedE <= 3 ? parsedE : 1;
+  })
+  const [firstname, setFirstName ] = useState<string>(()=>fn ? fn : '')
+  const [lastname, setLastName ] = useState<string>(()=>ln ? ln : '')
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const navigation = useNavigation();
-
-  const { q } = useLocalSearchParams<{ q?: string }>();
+  const handleLogin = async () => {
+    if(!email || !password){
+      alert('Upisite svoj email i lozinku')
+      return
+    }
+    if(!validateEmail(email)){
+      alert('Upisite validan email')
+      return
+    }
+    setLoading(true)
+    try {
+      await signUp(email, password, firstname, lastname, reason, experience, side)
+    } catch (error) {
+      Alert.alert('Greška');
+    }finally{
+      setLoading(false)
+      router.push('/')
+    }
+  }
 
   const [fontsLoaded] = useFonts({
     Rubik_300Light,
@@ -96,55 +121,48 @@ export default function Register() {
     }
   ]
 
- /* const handleSignUp = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-      });
-      if (error) throw error;
-      alert('Check your email for confirmation!');
-    } catch (error: any) {
-      setError(error.message);
-    } finally {
-      setLoading(false);
-      router.push('/')
-    }
-  };*/
+ 
 
   const handleBack = () => {
     if (Number(q) === 0) {
       router.back()
     } else {
-      /*const br = Number(q) - 1
-      router.push({
-        pathname: '/auth/register',
-        params: { q: br.toString() },
-      })*/
      router.back()
     }
   }
 
   const handleNext = () => {
+
+    if(Number(q)===5){
+      if(!firstname || !lastname){
+        alert('Upisite svoje ime i prezime')
+        return
+      }
+    }
+
     const br = Number(q) + 1
     router.push({
       pathname: '/auth/register',
-      params: { q: br.toString() },
+      params: { q: br.toString(), r: reason.toString(), e: experience.toString(), s: side.toString(), fn: firstname, ln: lastname},
     })
   }
 
-  const handleFirst = (id : Number) => {
-    setFirst(id)
+  const validateEmail = (email: string): boolean => {
+    // Regularni izraz za validaciju email adrese
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const handleReason = (id : number) => {
+    setReason(id)
   }
 
-  const handleSecond = (id : Number) => {
-    setSecond(id)
+  const handleExperience = (id : number) => {
+    setExperience(id)
   }
 
-  const handleThird = (id : Number) => {
-    setThird(id)
+  const handleSide = (id : number) => {
+    setSide(id)
   }
 
   useEffect(() => {
@@ -169,11 +187,11 @@ export default function Register() {
   } else if (Number(q) === 1) {
     return <MsgPage content='Brzinski ću te pitati 4 pitanja!' variant={colorScheme === 'light' ? 'light' : 'dark'} back={handleBack} next={handleNext} onLayoutRootView={onLayoutRootView} />;
   } else if (Number(q) === 2) {
-    return <OptPage content='Zašto učiš programiranje?' status={(Number(q)-1)*20} variant={colorScheme === 'light' ? 'light' : 'dark'} back={handleBack} next={handleNext} onLayoutRootView={onLayoutRootView} handleChg={handleFirst} val={first} options={content.find(el => el.id === Number(q))?.options || []} />
+    return <OptPage content='Zašto učiš programiranje?' status={(Number(q)-1)*20} variant={colorScheme === 'light' ? 'light' : 'dark'} back={handleBack} next={handleNext} onLayoutRootView={onLayoutRootView} handleChg={handleReason} val={reason} options={content.find(el => el.id === Number(q))?.options || []} />
   } else if (Number(q) === 3) {
-    return <OptPage content='Koliko imaš iskustva?' status={(Number(q)-1)*20} variant={colorScheme === 'light' ? 'light' : 'dark'} back={handleBack} next={handleNext} onLayoutRootView={onLayoutRootView} handleChg={handleSecond} val={second} options={content.find(el => el.id === Number(q))?.options || []} />
+    return <OptPage content='Koliko imaš iskustva?' status={(Number(q)-1)*20} variant={colorScheme === 'light' ? 'light' : 'dark'} back={handleBack} next={handleNext} onLayoutRootView={onLayoutRootView} handleChg={handleExperience} val={experience} options={content.find(el => el.id === Number(q))?.options || []} />
   } else if (Number(q) === 4) {
-    return <OptPage content='Koja strana programiranja te najviše privlači?' status={(Number(q)-1)*20} variant={colorScheme === 'light' ? 'light' : 'dark'} back={handleBack} next={handleNext} onLayoutRootView={onLayoutRootView} handleChg={handleSecond} val={second} options={content.find(el => el.id === Number(q))?.options || []} />
+    return <OptPage content='Koja strana programiranja te najviše privlači?' status={(Number(q)-1)*20} variant={colorScheme === 'light' ? 'light' : 'dark'} back={handleBack} next={handleNext} onLayoutRootView={onLayoutRootView} handleChg={handleSide} val={side} options={content.find(el => el.id === Number(q))?.options || []} />
   }else if (Number(q) === 5) {
     return (<View style={background}>
       <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
@@ -308,7 +326,7 @@ export default function Register() {
               <Button
                 title={loading ? "Ucitavanje..." : "Nastavi"}
                 textColor={colors.light.background}
-                onPress={()=>console.log('')/*handleSignUp*/}
+                onPress={handleLogin/*handleSignUp*/}
               />
               {error && <Text style={{ color: 'red' }}>{error}</Text>}
             </View>

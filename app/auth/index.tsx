@@ -72,7 +72,7 @@ export default function Index() {
           <Button
             variant="secondary"
             title="Već imam račun"
-            onPress={() => router.push('/new-course')}
+            onPress={() => router.push('/')}
             textColor={colorScheme === 'light' ? colors.primary : colors.light.background}
           />
         </View>
