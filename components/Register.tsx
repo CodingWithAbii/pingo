@@ -20,6 +20,8 @@ import { Image } from 'expo-image';
 import Chat from '@/components/ui/Chat'
 import Option from '@/components/ui/Option'
 import Statusbar from '@/components/ui/Statusbar'
+import MsgPage from './MsgPage';
+import OptPage from './OptPage';
 //import { supabase } from '@/lib/supabase';
 
 // Sprečite automatsko skrivanje splash screen-a
@@ -58,6 +60,7 @@ export default function Register() {
     title: string;
     icon?: any; // Opcionalni prop za ikone
   }
+
   interface Question {
     id: number;
     options: Option[];
@@ -162,270 +165,15 @@ export default function Register() {
   }
 
   if (Number(q) === 0) {
-    return (<View style={background}>
-      <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
-        <View style={{ flex: 1, justifyContent: 'space-between' }}>
-          <View style={{ gap: 8 }}>
-            <TouchableOpacity onPress={handleBack} >
-              <ArrowLeft style={{ cursor: 'pointer' }} color={colorScheme === 'light' ? '#AFAFAF' : '#74797A'} />
-            </TouchableOpacity>
-          </View>
-          <View style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'center' }}>
-
-            <Chat variant={colorScheme === 'light' ? 'light' : 'dark'}>Zdravo, ja sam Pingo!</Chat>
-            <Image
-              source={require('../assets/images/pingo-waving.png')}
-              style={{ width: 132, height: 137 }}
-            />
-          </View>
-          <View style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <Button
-              title='Nastavi'
-              textColor={colors.light.background}
-              onPress={handleNext}
-            />
-          </View>
-        </View>
-      </SafeAreaView>
-    </View>
-    );
+    return <MsgPage content='Zdravo, ja sam Pingo!' variant={colorScheme === 'light' ? 'light' : 'dark'} back={handleBack} next={handleNext} onLayoutRootView={onLayoutRootView} />;
   } else if (Number(q) === 1) {
-    return (<View style={background}>
-      <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
-        <View style={{ flex: 1, justifyContent: 'space-between' }}>
-          <View style={{ gap: 8 }}>
-            <TouchableOpacity onPress={handleBack} >
-              <ArrowLeft style={{ cursor: 'pointer' }} color={colorScheme === 'light' ? '#AFAFAF' : '#74797A'} />
-            </TouchableOpacity>
-          </View>
-          <View style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'center' }}>
-
-            <Chat variant={colorScheme === 'light' ? 'light' : 'dark'}>Brzinski ću te pitati 4 pitanja!</Chat>
-            <Image
-              source={require('../assets/images/pingo-waving.png')}
-              style={{ width: 132, height: 137 }}
-            />
-          </View>
-          <View style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <Button
-              title='Nastavi'
-              textColor={colors.light.background}
-              onPress={handleNext}
-            />
-          </View>
-        </View>
-      </SafeAreaView>
-    </View>
-    );
+    return <MsgPage content='Brzinski ću te pitati 4 pitanja!' variant={colorScheme === 'light' ? 'light' : 'dark'} back={handleBack} next={handleNext} onLayoutRootView={onLayoutRootView} />;
   } else if (Number(q) === 2) {
-    return (<View style={background}>
-      <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
-        <View style={{display: 'flex', justifyContent: 'space-between', height:'100%', width: '100%' }}>
-          <View style={{display: 'flex',  width: '100%', gap: 16}}>
-            <View style={{ display: 'flex', gap: 24, alignItems: 'center', flexDirection: 'row', width:'100%'}}>
-              <TouchableOpacity onPress={handleBack} >
-                <ArrowLeft style={{ cursor: 'pointer' }} color={colorScheme === 'light' ? '#AFAFAF' : '#74797A'} />
-              </TouchableOpacity>
-              <Statusbar variant={colorScheme === 'dark' ? 'dark' : 'light'} value={20}/>
-              </View>
-            <View style={{ display: 'flex', gap: 14, alignItems: 'flex-start', flexDirection: 'row', marginTop: 4 }}>
-              <Image
-                source={require('../assets/images/pingo-standing.png')}
-                style={{ width: 82, height: 85 }}
-              />
-              <Text style={colorScheme === 'dark' ? {
-                marginTop: 5,
-                borderColor: '#37464F',
-                borderWidth: 2,
-                borderRadius: 12,
-                paddingHorizontal: 16,
-                paddingVertical: 10,
-                fontSize: 13,
-                color: '#F1F7FB',
-              } : {
-                marginTop: 5,
-                borderColor: '#E5E5E5',
-                borderWidth: 2,
-                borderRadius: 12,
-                paddingHorizontal: 16,
-                paddingVertical: 10,
-                fontSize: 14,
-                color: '#4B4B4B'
-              }}>Zašto učiš programiranje?</Text>
-            </View>
-
-            {content.map((ques) => (
-              ques.id === Number(q) && (
-                <View style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center', marginTop: 2 }} key={ques.id}>
-                  {ques.options.map((opt) => (
-                    <Option
-                      key={opt.id} // Obavezno dodati unique key
-                      variant={colorScheme === 'light' ? 'light' : 'dark'}
-                      icon={opt?.icon}
-                      active={first===opt.id}
-                      onPress={()=>handleFirst(opt.id)}
-                    >
-
-                      {opt.title}
-                    </Option>
-                  ))}
-                </View>
-              )
-            ))}
-          </View>
-
-            <View style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <Button
-                title='Nastavi'
-                textColor={colors.light.background}
-                onPress={handleNext}
-              />
-            </View>
-          </View>
-        
-      </SafeAreaView>
-    </View>
-    );
+    return <OptPage content='Zašto učiš programiranje?' status={(Number(q)-1)*20} variant={colorScheme === 'light' ? 'light' : 'dark'} back={handleBack} next={handleNext} onLayoutRootView={onLayoutRootView} handleChg={handleFirst} val={first} options={content.find(el => el.id === Number(q))?.options || []} />
   } else if (Number(q) === 3) {
-    return (<View style={background}>
-      <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
-        <View style={{ flex: 1, justifyContent: 'space-between' }}>
-          <View style={{display: 'flex', gap: 16}}>
-          <View style={{ gap: 24, display: 'flex', alignItems: 'center', flexDirection: 'row', width:'100%'}}>
-              <TouchableOpacity onPress={handleBack} >
-                <ArrowLeft style={{ cursor: 'pointer' }} color={colorScheme === 'light' ? '#AFAFAF' : '#74797A'} />
-              </TouchableOpacity>
-              <Statusbar variant={colorScheme === 'dark' ? 'dark' : 'light'} value={40}/>
-              </View>
-            <View style={{ display: 'flex', gap: 14, alignItems: 'flex-start', flexDirection: 'row', marginTop: 4 }}>
-              <Image
-                source={require('../assets/images/pingo-standing.png')}
-                style={{ width: 82, height: 85 }}
-              />
-              <Text style={colorScheme === 'dark' ? {
-                marginTop: 5,
-                borderColor: '#37464F',
-                borderWidth: 2,
-                borderRadius: 12,
-                paddingHorizontal: 16,
-                paddingVertical: 10,
-                fontSize: 13,
-                color: '#F1F7FB',
-              } : {
-                marginTop: 5,
-                borderColor: '#E5E5E5',
-                borderWidth: 2,
-                borderRadius: 12,
-                paddingHorizontal: 16,
-                paddingVertical: 10,
-                fontSize: 14,
-                color: '#4B4B4B'
-              }}>Koliko imaš iskustva?</Text>
-            </View>
-
-            {content.map((ques) => (
-              ques.id === Number(q) && (
-                <View style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center', marginTop: 2 }} key={ques.id}>
-                  {ques.options.map((opt) => (
-                     <Option
-                     key={opt.id} // Obavezno dodati unique key
-                     variant={colorScheme === 'light' ? 'light' : 'dark'}
-                     icon={opt?.icon}
-                     active={second===opt.id}
-                     onPress={()=>handleSecond(opt.id)}
-                   >
-
-                     {opt.title}
-                   </Option>
-                  ))}
-                </View>
-              )
-            ))}
-          </View>
-
-            <View style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <Button
-                title='Nastavi'
-                textColor={colors.light.background}
-                onPress={handleNext}
-              />
-            </View>
-          </View>
-        
-      </SafeAreaView>
-    </View>
-    );
+    return <OptPage content='Koliko imaš iskustva?' status={(Number(q)-1)*20} variant={colorScheme === 'light' ? 'light' : 'dark'} back={handleBack} next={handleNext} onLayoutRootView={onLayoutRootView} handleChg={handleSecond} val={second} options={content.find(el => el.id === Number(q))?.options || []} />
   } else if (Number(q) === 4) {
-    return (<View style={background}>
-      <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
-        <View style={{ flex: 1, justifyContent: 'space-between' }}>
-          <View style={{display: 'flex', gap: 16}}>
-          <View style={{ gap: 24, display: 'flex', alignItems: 'center', flexDirection: 'row', width:'100%'}}>
-              <TouchableOpacity onPress={handleBack} >
-                <ArrowLeft style={{ cursor: 'pointer' }} color={colorScheme === 'light' ? '#AFAFAF' : '#74797A'} />
-              </TouchableOpacity>
-              <Statusbar variant={colorScheme === 'dark' ? 'dark' : 'light'} value={60}/>
-              </View>
-            <View style={{ display: 'flex', gap: 14, alignItems: 'flex-start', flexDirection: 'row', marginTop: 4 }}>
-              <Image
-                source={require('../assets/images/pingo-standing.png')}
-                style={{ width: 82, height: 85 }}
-              />
-              <Text style={colorScheme === 'dark' ? {
-                marginTop: 5,
-                borderColor: '#37464F',
-                borderWidth: 2,
-                borderRadius: 12,
-                paddingHorizontal: 16,
-                paddingVertical: 10,
-                fontSize: 13,
-                color: '#F1F7FB',
-                maxWidth: 250
-              } : {
-                marginTop: 5,
-                borderColor: '#E5E5E5',
-                borderWidth: 2,
-                borderRadius: 12,
-                paddingHorizontal: 16,
-                paddingVertical: 10,
-                fontSize: 14,
-                color: '#4B4B4B',
-                maxWidth: 250
-              }}>Koja strana programiranja te najviše privlači?</Text>
-            </View>
-
-            {content.map((ques) => (
-              ques.id === Number(q) && (
-                <View style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center', marginTop: 2 }} key={ques.id}>
-                  {ques.options.map((opt) => (
-                    <Option
-                    key={opt.id} // Obavezno dodati unique key
-                    variant={colorScheme === 'light' ? 'light' : 'dark'}
-                    icon={opt?.icon}
-                    active={third===opt.id}
-                    onPress={()=>handleThird(opt.id)}
-                  >
-
-                      {opt.title}
-                    </Option>
-                  ))}
-                </View>
-              )
-            ))}
-          </View>
-
-            <View style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <Button
-                title='Nastavi'
-                textColor={colors.light.background}
-                onPress={handleNext}
-              />
-            </View>
-          </View>
-        
-      </SafeAreaView>
-    </View>
-    );
+    return <OptPage content='Koja strana programiranja te najviše privlači?' status={(Number(q)-1)*20} variant={colorScheme === 'light' ? 'light' : 'dark'} back={handleBack} next={handleNext} onLayoutRootView={onLayoutRootView} handleChg={handleSecond} val={second} options={content.find(el => el.id === Number(q))?.options || []} />
   }else if (Number(q) === 5) {
     return (<View style={background}>
       <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>

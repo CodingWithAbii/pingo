@@ -13,7 +13,6 @@ type ChatProps = ViewProps & {
 
 const Chat = ({ children, variant }: ChatProps) => {
 
-
   return (
     <View style={styles.container}>
       <Text style={variant === 'dark' ? styles.dark : styles.light }>{children}</Text>
