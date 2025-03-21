@@ -20,11 +20,11 @@ type OptPageProps = ViewProps & {
     status: number;
     content: string;
     options: Option[];
-    back: any;
-    next: any;
-    onLayoutRootView: any;
-    handleChg: any;
-    val: Number;
+    back: () => void;
+    next: () => void;
+    onLayoutRootView: () => Promise<void>;
+    handleChg: (id: number) => void;
+    val: number;
   };
 
 function OptPage({variant, status, content, back, next, onLayoutRootView, handleChg, val, options}: OptPageProps) {

@@ -37,5 +37,7 @@ yarn-error.*
 
 app-example
 
-#abi's ignore
-lib/
+# env files
+.env
+
+

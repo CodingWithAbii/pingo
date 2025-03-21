@@ -4,6 +4,7 @@ import {
   StyleSheet,
   ViewProps,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import { colors, ColorVariants } from '../../constants/colors';
 import { Image } from 'expo-image';
@@ -50,12 +51,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderBottomWidth: 4
   },
-
-  darkText: {
-    color: '#F1F7FB',
-    fontFamily: 'Rubik_500Medium',
-  },
-
   light: {
     width: '100%',
     display: 'flex',
@@ -69,12 +64,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderBottomWidth: 4
   },
-
-  lightText:{
-    color: '#4B4B4B',
-    fontFamily: 'Rubik_500Medium',
-  },
-
   active: {
     width: '100%',
     display: 'flex',
@@ -88,10 +77,15 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderRadius: 12,
     borderBottomWidth: 4
+  },
+  darkText: {
+    color: '#F1F7FB',
+    fontFamily: 'Rubik_500Medium',
+  },
+  lightText:{
+    color: '#4B4B4B',
+    fontFamily: 'Rubik_500Medium',
   }
-
-
-
 });
 
 export default Option;

@@ -21,6 +21,7 @@ import Statusbar from '@/components/ui/Statusbar'
 import MsgPage from './MsgPage';
 import OptPage from './OptPage';
 import { signIn, signUp } from '@/lib/auth';
+import CustomAlert, { showAlert } from '@/components/ui/CustomAlert';
 //import { supabase } from '@/lib/supabase';
 
 // Sprečite automatsko skrivanje splash screen-a
@@ -45,29 +46,43 @@ export default function Register() {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false);
-
+  const [alertState, setAlertState] = useState({
+    visible: false,
+    title: '',
+    message: '',
+  });
 
   const handleRegister = async () => {
     if(!email || !password){
-      alert('Upisite svoj email i lozinku')
-      return
+      showAlert('Greška', 'Upisite svoj email i lozinku', setAlertState);
+      return;
     }
     if(!validateEmail(email)){
-      alert('Upisite validan email')
-      return
+      showAlert('Greška', 'Upisite validan email', setAlertState);
+      return;
     }
-    setLoading(true)
+    if(Number(q)===5 && (!firstname || !lastname)){
+      showAlert('Greška', 'Upisite svoje ime i prezime', setAlertState);
+      return;
+    }
+    setLoading(true);
     try {
-     const user =  await signUp(email, password, firstname, lastname, reason, experience, side)
-     if (user) {
-      router.push('/home')
+      const user = await signUp(email, password, firstname, lastname, reason, experience, side);
+      if (user) {
+        router.push('/home');
+      }
+    } catch (error: any) {
+      let errorMessage = 'Greška prilikom registracije';
+      if (error.message?.includes('network')) {
+        errorMessage = 'Problem sa internet konekcijom';
+      } else if (error.message?.includes('email')) {
+        errorMessage = 'Email adresa je već zauzeta';
+      }
+      showAlert('Greška', errorMessage, setAlertState);
+    } finally {
+      setLoading(false);
     }
-    } catch (error) {
-      alert('Greška prilikom registracije');
-    }finally{
-      setLoading(false)
-    }
-  }
+  };
 
   const [fontsLoaded] = useFonts({
     Rubik_300Light,
@@ -134,11 +149,10 @@ export default function Register() {
   }
 
   const handleNext = () => {
-
     if(Number(q)===5){
       if(!firstname || !lastname){
-        alert('Upisite svoje ime i prezime')
-        return
+        showAlert('Greška', 'Upisite svoje ime i prezime', setAlertState);
+        return;
       }
     }
 
@@ -170,8 +184,15 @@ export default function Register() {
   useEffect(() => {
     if (fontsLoaded) {
       setAppIsReady(true);
+      SplashScreen.hideAsync().catch(console.error);
     }
-  }, [fontsLoaded]);
+    return () => {
+      // Cleanup
+      if (appIsReady) {
+        SplashScreen.hideAsync().catch(console.error);
+      }
+    };
+  }, [fontsLoaded, appIsReady]);
 
   const onLayoutRootView = useCallback(async () => {
     if (appIsReady) {
@@ -196,6 +217,12 @@ export default function Register() {
     return <OptPage content='Koja strana programiranja te najviše privlači?' status={(Number(q)-1)*20} variant={colorScheme === 'light' ? 'light' : 'dark'} back={handleBack} next={handleNext} onLayoutRootView={onLayoutRootView} handleChg={handleSide} val={side} options={content.find(el => el.id === Number(q))?.options || []} />
   }else if (Number(q) === 5) {
     return (<View style={background}>
+      <CustomAlert
+        visible={alertState.visible}
+        title={alertState.title}
+        message={alertState.message}
+        onClose={() => setAlertState(prev => ({ ...prev, visible: false }))}
+      />
       <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
           <View style={{display: 'flex', gap: 16}}>
@@ -266,6 +293,12 @@ export default function Register() {
     );
   } else if (Number(q) === 6) {
     return (<View style={background}>
+      <CustomAlert
+        visible={alertState.visible}
+        title={alertState.title}
+        message={alertState.message}
+        onClose={() => setAlertState(prev => ({ ...prev, visible: false }))}
+      />
       <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
           <View style={{display: 'flex', gap: 16}}>
@@ -338,4 +371,14 @@ export default function Register() {
     );
   } 
 
+  return (
+    <>
+      <CustomAlert
+        visible={alertState.visible}
+        title={alertState.title}
+        message={alertState.message}
+        onClose={() => setAlertState(prev => ({ ...prev, visible: false }))}
+      />
+    </>
+  );
 }

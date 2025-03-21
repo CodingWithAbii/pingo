@@ -5,6 +5,7 @@ import {
   View,
   ViewProps,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import { Image } from "expo-image";
 
@@ -65,12 +66,11 @@ const styles = StyleSheet.create({
     color: "#B8BCBD",
   },
   lightdescription: {
-
     fontSize: 14,
     color: "#4B4B4B",
     marginTop: 4,
   },
-   darkdescription: {
+  darkdescription: {
     fontSize: 14,
     color: "#B8BCBD",
     marginTop: 4,

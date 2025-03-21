@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, useColorScheme, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { Text, View, StyleSheet, useColorScheme, TouchableOpacity, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   useFonts,
@@ -18,6 +18,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { signIn } from '@/lib/auth';
+import CustomAlert, { showAlert } from '@/components/ui/CustomAlert';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -25,28 +26,39 @@ export default function Login() {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false);
+  const [alertState, setAlertState] = useState({
+    visible: false,
+    title: '',
+    message: '',
+  });
 
   const handleLogin = async () => {
     if (!email || !password) {
-      alert('Upisite svoj email i lozinku')
-      return
+      showAlert('Greška', 'Molimo unesite email i lozinku', setAlertState);
+      return;
     }
     if (!validateEmail(email)) {
-      alert('Upisite validan email')
-      return
+      showAlert('Greška', 'Molimo unesite validnu email adresu', setAlertState);
+      return;
     }
-    setLoading(true)
+    setLoading(true);
     try {
-      const user = await signIn(email, password)
+      const user = await signIn(email, password);
       if (user) {
-        router.push('/home')
+        router.push('/home');
       }
-    } catch (error) {
-      alert('Greška prilikom prijave');
+    } catch (error: any) {
+      let errorMessage = 'Došlo je do greške prilikom prijave';
+      if (error.message?.includes('Invalid login credentials')) {
+        errorMessage = 'Pogrešan email ili lozinka';
+      } else if (error.message?.includes('network')) {
+        errorMessage = 'Problem sa internet konekcijom';
+      }
+      showAlert('Greška', errorMessage, setAlertState);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const validateEmail = (email: string): boolean => {
     // Regularni izraz za validaciju email adrese
@@ -84,9 +96,13 @@ export default function Login() {
     return <View style={background} />; // Možete vratiti prazan View ili neki loader
   }
 
-
-
   return (<View style={background}>
+    <CustomAlert
+      visible={alertState.visible}
+      title={alertState.title}
+      message={alertState.message}
+      onClose={() => setAlertState(prev => ({ ...prev, visible: false }))}
+    />
     <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
       <View style={{ flex: 1, justifyContent: 'space-between' }}>
         <View style={{ display: 'flex', gap: 16 }}>

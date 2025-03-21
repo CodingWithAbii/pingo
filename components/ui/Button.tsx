@@ -7,6 +7,7 @@ import {
   TextStyle,
   StyleProp,
   TouchableOpacityProps,
+  Platform,
 } from 'react-native';
 import { colors, ColorVariants } from '../../constants/colors';
 
@@ -23,7 +24,7 @@ const Button: React.FC<ButtonProps> = ({
   onPress,
   style,
   textStyle,
-  textColor,
+  textColor = '#fff',
   ...props
 }) => {
   const buttonStyle: StyleProp<ViewStyle> = [

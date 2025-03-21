@@ -1,26 +1,16 @@
-import Button from '@/components/ui/Button';
-import { useRouter } from 'expo-router';
-import { Text, View, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
+import { useAuth } from '@/components/providers/AuthProvider';
+import { layoutStyles } from '@/constants/layout';
+import { useColorScheme } from 'react-native';
 
-export default function Index() {
-  const router = useRouter()
+export default function Home() {
+  const { user } = useAuth();
+  const colorScheme = useColorScheme();
+  const background = colorScheme === 'light' ? layoutStyles.lightBackground : layoutStyles.darkBackground;
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Home</Text>
-      <Button title='Root' onPress={()=>router.replace('/')} />
-      <Button title='Registracija' onPress={()=>router.replace('/auth')} />
+    <View style={background}>
+      <Text>Dobrodošli, {user?.email}</Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#25292e',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    color: '#fff',
-  },
-});
