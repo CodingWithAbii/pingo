@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { Platform } from 'react-native';
+import Constants from 'expo-constants';
 
 // Uvezi polifill SAMO za mobilne platforme
 if (Platform.OS !== 'web') {

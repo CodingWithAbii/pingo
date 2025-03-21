@@ -45,9 +45,9 @@ export default function Register() {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const handleLogin = async () => {
+
+  const handleRegister = async () => {
     if(!email || !password){
       alert('Upisite svoj email i lozinku')
       return
@@ -58,12 +58,14 @@ export default function Register() {
     }
     setLoading(true)
     try {
-      await signUp(email, password, firstname, lastname, reason, experience, side)
+     const user =  await signUp(email, password, firstname, lastname, reason, experience, side)
+     if (user) {
+      router.push('/home')
+    }
     } catch (error) {
-      Alert.alert('Greška');
+      alert('Greška prilikom registracije');
     }finally{
       setLoading(false)
-      router.push('/')
     }
   }
 
@@ -326,10 +328,9 @@ export default function Register() {
               <Button
                 title={loading ? "Ucitavanje..." : "Nastavi"}
                 textColor={colors.light.background}
-                onPress={handleLogin/*handleSignUp*/}
+                onPress={handleRegister/*handleSignUp*/}
               />
-              {error && <Text style={{ color: 'red' }}>{error}</Text>}
-            </View>
+              </View>
           </View>
         
       </SafeAreaView>
