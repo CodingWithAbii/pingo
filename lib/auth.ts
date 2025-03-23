@@ -87,14 +87,33 @@ export const signOut = async () => {
 
 // Provera da li je korisnik ulogovan
 export const getCurrentUser = async (): Promise<User | null> => {
+  try {
     const session = Platform.OS === 'web' 
       ? localStorage.getItem('supabase_session')
       : await SecureStore.getItemAsync('supabase_session');
-  
+    
     if (session) {
-      supabase.auth.setSession(JSON.parse(session));
+      const parsedSession = JSON.parse(session);
+      const { data: { session: currentSession }, error: sessionError } = 
+        await supabase.auth.setSession(parsedSession);
+      
+      if (sessionError || !currentSession) {
+        // Sesija je istekla ili nije validna
+        await deleteSession();
+        return null;
+      }
     }
-  
-    const { data: { user } } = await supabase.auth.getUser();
+    
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError) {
+      console.error('Error getting user:', userError);
+      return null;
+    }
+    
     return user;
-  };
+  } catch (error) {
+    console.error('Error in getCurrentUser:', error);
+    await deleteSession(); // Briši sesiju u slučaju greške
+    return null;
+  }
+};

@@ -66,7 +66,7 @@ export default function index() {
           </View>
           <View style={{ display: 'flex', gap: 14, alignItems: 'flex-start', flexDirection: 'row', marginTop: 4 }}>
             <Image
-              source={require('../../../assets/images/pingo-standing.png')}
+              source={require('../../assets/images/pingo-standing.png')}
               style={{ width: 82, height: 85 }}
             />
             <Text style={colorScheme === 'dark' ? {
@@ -115,14 +115,14 @@ export default function index() {
             variant={colorScheme === 'dark' ? 'dark' : 'light'}
             title="Osnovni web razvoj"
             description="Nauči HTML, CSS i JavaScript od temelja"
-            image={require("../../../assets/images/courses/HtmlCssJs.png")}
+            image={require("../../assets/images/courses/HtmlCssJs.png")}
             onPress={() => router.push('/home')}
           />
           <CourseCard
             variant={colorScheme === 'dark' ? 'dark' : 'light'}
             title="Napredniji web razvoj"
             description="Savladaj moderne front-end tehnologije"
-            image={require("../../../assets/images/courses/frameworks.png")}
+            image={require("../../assets/images/courses/frameworks.png")}
             onPress={() => console.log("Course Clicked")}
           />
         </View>

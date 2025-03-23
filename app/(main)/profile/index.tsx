@@ -1,5 +1,4 @@
 import { Text, View, useColorScheme } from 'react-native';
-import { useAuth } from '@/components/providers/AuthProvider';
 import { layoutStyles } from '@/constants/layout';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
@@ -13,10 +12,11 @@ import {
 } from '@expo-google-fonts/rubik';
 import * as SplashScreen from 'expo-splash-screen';
 import { useCallback, useEffect, useState } from 'react';
+import { useAuth } from '@/components/providers/AuthProvider';
 
 SplashScreen.preventAutoHideAsync();
 
-export default function Home() {
+export default function Profile() {
   const { user } = useAuth();
   const colorScheme = useColorScheme();
   const background = colorScheme === 'light' ? layoutStyles.lightBackground : layoutStyles.darkBackground;
@@ -56,10 +56,17 @@ export default function Home() {
             fontSize: 24,
             color: colorScheme === 'light' ? '#162227' : '#DCE6EC'
           }}>
-            Dobrodošli, {user?.email}
+            Profil
+          </Text>
+          <Text style={{ 
+            fontFamily: 'Rubik_400Regular', 
+            fontSize: 16,
+            color: colorScheme === 'light' ? '#162227' : '#DCE6EC'
+          }}>
+            {user?.email}
           </Text>
         </View>
       </SafeAreaView>
     </View>
   );
-}
+} 

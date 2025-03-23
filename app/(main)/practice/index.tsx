@@ -1,5 +1,4 @@
 import { Text, View, useColorScheme } from 'react-native';
-import { useAuth } from '@/components/providers/AuthProvider';
 import { layoutStyles } from '@/constants/layout';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
@@ -16,8 +15,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 SplashScreen.preventAutoHideAsync();
 
-export default function Home() {
-  const { user } = useAuth();
+export default function Practice() {
   const colorScheme = useColorScheme();
   const background = colorScheme === 'light' ? layoutStyles.lightBackground : layoutStyles.darkBackground;
 
@@ -56,10 +54,10 @@ export default function Home() {
             fontSize: 24,
             color: colorScheme === 'light' ? '#162227' : '#DCE6EC'
           }}>
-            Dobrodošli, {user?.email}
+            Vježbaj
           </Text>
         </View>
       </SafeAreaView>
     </View>
   );
-}
+} 

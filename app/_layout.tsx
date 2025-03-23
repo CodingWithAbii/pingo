@@ -1,9 +1,10 @@
-import { Stack } from "expo-router";
+import { Slot } from "expo-router";
+import { Providers } from "@/components/providers";
 
 export default function RootLayout() {
-  return <Stack
-  screenOptions={{
-    headerShown: false
-  }}
-  />;
+  return (
+    <Providers>
+      <Slot />
+    </Providers>
+  );
 }
