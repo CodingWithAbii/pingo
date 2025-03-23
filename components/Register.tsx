@@ -30,16 +30,19 @@ SplashScreen.preventAutoHideAsync();
 export default function Register() {
   const { q, r, e, s, fn, ln } = useLocalSearchParams<{ q?: string, r?: string, e?: string, s?: string, fn?: string, ln?: string}>();
   const [reason, setReason] = useState<number>(() => {
-    const parsedR = parseInt(r || '1', 10);
-    return parsedR >= 1 && parsedR <= 5 ? parsedR : 1;
+    if (!r) return 0;
+    const parsedR = parseInt(r, 10);
+    return parsedR >= 1 && parsedR <= 5 ? parsedR : 0;
   })
   const [experience, setExperience] = useState<number>(() => {
-    const parsedE = parseInt(e || '1', 10);
-    return parsedE >= 1 && parsedE <= 3 ? parsedE : 1;
+    if (!e) return 0;
+    const parsedE = parseInt(e, 10);
+    return parsedE >= 1 && parsedE <= 3 ? parsedE : 0;
   })
   const [side, setSide] = useState<number>(() => {
-    const parsedE = parseInt(s || '1', 10);
-    return parsedE >= 1 && parsedE <= 3 ? parsedE : 1;
+    if (!s) return 0;
+    const parsedS = parseInt(s, 10);
+    return parsedS >= 1 && parsedS <= 3 ? parsedS : 0;
   })
   const [firstname, setFirstName ] = useState<string>(()=>fn ? fn : '')
   const [lastname, setLastName ] = useState<string>(()=>ln ? ln : '')
@@ -53,23 +56,26 @@ export default function Register() {
   });
 
   const handleRegister = async () => {
-    if(!email || !password){
-      showAlert('Greška', 'Upisite svoj email i lozinku', setAlertState);
+    if(isNextDisabled()) {
+      showAlert('Greška', 'Molimo unesite sve potrebne podatke', setAlertState);
       return;
     }
+
+    if(password.length < 6) {
+      showAlert('Greška', 'Lozinka mora sadržavati najmanje 6 karaktera', setAlertState);
+      return;
+    }
+
     if(!validateEmail(email)){
-      showAlert('Greška', 'Upisite validan email', setAlertState);
+      showAlert('Greška', 'Molimo unesite validnu email adresu', setAlertState);
       return;
     }
-    if(Number(q)===5 && (!firstname || !lastname)){
-      showAlert('Greška', 'Upisite svoje ime i prezime', setAlertState);
-      return;
-    }
+    
     setLoading(true);
     try {
       const user = await signUp(email, password, firstname, lastname, reason, experience, side);
       if (user) {
-        router.push('/home');
+        router.replace('/home');
       }
     } catch (error: any) {
       let errorMessage = 'Greška prilikom registracije';
@@ -201,20 +207,82 @@ export default function Register() {
     }
   }, [appIsReady]);
 
+  const isNextDisabled = () => {
+    const currentQ = Number(q);
+    switch (currentQ) {
+      case 2:
+        return reason === 0;
+      case 3:
+        return experience === 0;
+      case 4:
+        return side === 0;
+      case 5:
+        return !firstname || !lastname;
+      case 6:
+        return !email || !password ;
+      default:
+        return false;
+    }
+  };
+
   if (!appIsReady) {
     return <View style={background} />; // Možete vratiti prazan View ili neki loader
   }
 
   if (Number(q) === 0) {
-    return <MsgPage content='Zdravo, ja sam Pingo!' variant={colorScheme === 'light' ? 'light' : 'dark'} back={handleBack} next={handleNext} onLayoutRootView={onLayoutRootView} />;
+    return <MsgPage 
+      content='Zdravo, ja sam Pingo!' 
+      variant={colorScheme === 'light' ? 'light' : 'dark'} 
+      back={handleBack} 
+      next={handleNext} 
+      onLayoutRootView={onLayoutRootView}
+      disabled={false}
+    />;
   } else if (Number(q) === 1) {
-    return <MsgPage content='Brzinski ću te pitati 4 pitanja!' variant={colorScheme === 'light' ? 'light' : 'dark'} back={handleBack} next={handleNext} onLayoutRootView={onLayoutRootView} />;
+    return <MsgPage 
+      content='Brzinski ću te pitati 4 pitanja!' 
+      variant={colorScheme === 'light' ? 'light' : 'dark'} 
+      back={handleBack} 
+      next={handleNext} 
+      onLayoutRootView={onLayoutRootView}
+      disabled={false}
+    />;
   } else if (Number(q) === 2) {
-    return <OptPage content='Zašto učiš programiranje?' status={(Number(q)-1)*20} variant={colorScheme === 'light' ? 'light' : 'dark'} back={handleBack} next={handleNext} onLayoutRootView={onLayoutRootView} handleChg={handleReason} val={reason} options={content.find(el => el.id === Number(q))?.options || []} />
+    return <OptPage 
+      content='Zašto učiš programiranje?' 
+      status={(Number(q)-1)*20} 
+      variant={colorScheme === 'light' ? 'light' : 'dark'} 
+      back={handleBack} 
+      next={handleNext} 
+      onLayoutRootView={onLayoutRootView} 
+      handleChg={handleReason} 
+      val={reason} 
+      options={content.find(el => el.id === Number(q))?.options || []}
+    />;
   } else if (Number(q) === 3) {
-    return <OptPage content='Koliko imaš iskustva?' status={(Number(q)-1)*20} variant={colorScheme === 'light' ? 'light' : 'dark'} back={handleBack} next={handleNext} onLayoutRootView={onLayoutRootView} handleChg={handleExperience} val={experience} options={content.find(el => el.id === Number(q))?.options || []} />
+    return <OptPage 
+      content='Koliko imaš iskustva?' 
+      status={(Number(q)-1)*20} 
+      variant={colorScheme === 'light' ? 'light' : 'dark'} 
+      back={handleBack} 
+      next={handleNext} 
+      onLayoutRootView={onLayoutRootView} 
+      handleChg={handleExperience} 
+      val={experience} 
+      options={content.find(el => el.id === Number(q))?.options || []}
+    />;
   } else if (Number(q) === 4) {
-    return <OptPage content='Koja strana programiranja te najviše privlači?' status={(Number(q)-1)*20} variant={colorScheme === 'light' ? 'light' : 'dark'} back={handleBack} next={handleNext} onLayoutRootView={onLayoutRootView} handleChg={handleSide} val={side} options={content.find(el => el.id === Number(q))?.options || []} />
+    return <OptPage 
+      content='Koja strana programiranja te najviše privlači?' 
+      status={(Number(q)-1)*20} 
+      variant={colorScheme === 'light' ? 'light' : 'dark'} 
+      back={handleBack} 
+      next={handleNext} 
+      onLayoutRootView={onLayoutRootView} 
+      handleChg={handleSide} 
+      val={side} 
+      options={content.find(el => el.id === Number(q))?.options || []}
+    />;
   }else if (Number(q) === 5) {
     return (<View style={background}>
       <CustomAlert
@@ -284,6 +352,7 @@ export default function Register() {
                 title='Nastavi'
                 textColor={colors.light.background}
                 onPress={handleNext}
+                disabled={isNextDisabled()}
               />
             </View>
           </View>
@@ -359,9 +428,10 @@ export default function Register() {
 
             <View style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <Button
-                title={loading ? "Ucitavanje..." : "Nastavi"}
+                title={loading ? "Učitavanje..." : "Nastavi"}
                 textColor={colors.light.background}
-                onPress={handleRegister/*handleSignUp*/}
+                onPress={handleRegister}
+                disabled={loading || isNextDisabled()}
               />
               </View>
           </View>

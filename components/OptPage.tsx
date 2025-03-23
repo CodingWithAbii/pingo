@@ -53,6 +53,7 @@ function OptPage({variant, status, content, back, next, onLayoutRootView, handle
                 paddingVertical: 10,
                 fontSize: 13,
                 color: '#F1F7FB',
+                maxWidth: 250
               } : {
                 marginTop: 5,
                 borderColor: '#E5E5E5',
@@ -61,7 +62,8 @@ function OptPage({variant, status, content, back, next, onLayoutRootView, handle
                 paddingHorizontal: 16,
                 paddingVertical: 10,
                 fontSize: 14,
-                color: '#4B4B4B'
+                color: '#4B4B4B',
+                maxWidth: 250
               }}>{content}</Text>
             </View>
 
@@ -88,6 +90,7 @@ function OptPage({variant, status, content, back, next, onLayoutRootView, handle
                 title='Nastavi'
                 textColor={colors.light.background}
                 onPress={next}
+                disabled={val === 0}
               />
             </View>
           </View>

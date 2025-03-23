@@ -16,9 +16,10 @@ type MsgPageProps = ViewProps & {
     back: any;
     next: any;
     onLayoutRootView: any;
+    disabled?: boolean;
   };
 
-function MsgPage({variant, status, content, back, next, onLayoutRootView}: MsgPageProps) {
+function MsgPage({variant, status, content, back, next, onLayoutRootView, disabled = false}: MsgPageProps) {
   return (
     <View style={variant === 'light' ? layoutStyles.lightBackground : layoutStyles.darkBackground}>
         <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
@@ -42,6 +43,7 @@ function MsgPage({variant, status, content, back, next, onLayoutRootView}: MsgPa
                 title='Nastavi'
                 textColor={colors.light.background}
                 onPress={next}
+                disabled={disabled}
               />
             </View>
           </View>

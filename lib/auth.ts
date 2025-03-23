@@ -106,14 +106,34 @@ export const getCurrentUser = async (): Promise<User | null> => {
     
     const { data: { user }, error: userError } = await supabase.auth.getUser();
     if (userError) {
-      console.error('Error getting user:', userError);
       return null;
     }
     
     return user;
   } catch (error) {
-    console.error('Error in getCurrentUser:', error);
     await deleteSession(); // Briši sesiju u slučaju greške
     return null;
   }
 };
+
+export interface Profile {
+  id: string;
+  first_name: string;
+  last_name: string;
+}
+
+export async function getProfile(userId: string): Promise<Profile | null> {
+  try {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('id, first_name, last_name')
+      .eq('id', userId)
+      .single();
+
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error('Error fetching profile:', error);
+    return null;
+  }
+}

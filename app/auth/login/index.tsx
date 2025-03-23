@@ -32,20 +32,27 @@ export default function Login() {
     message: '',
   });
 
+  const isNextDisabled = () => {
+    return !email || !password;
+  };
+
   const handleLogin = async () => {
-    if (!email || !password) {
-      showAlert('Greška', 'Molimo unesite email i lozinku', setAlertState);
+    if (isNextDisabled()) {
+      showAlert('Greška', 'Molimo unesite validne podatke za prijavu', setAlertState);
       return;
     }
-    if (!validateEmail(email)) {
+
+    if(!validateEmail(email)){
       showAlert('Greška', 'Molimo unesite validnu email adresu', setAlertState);
       return;
     }
+    
+    
     setLoading(true);
     try {
       const user = await signIn(email, password);
       if (user) {
-        router.push('/home');
+        router.replace('/home');
       }
     } catch (error: any) {
       let errorMessage = 'Došlo je do greške prilikom prijave';
@@ -136,7 +143,7 @@ export default function Login() {
               fontSize: 14,
               color: '#4B4B4B',
               maxWidth: 250
-            }}>Upiši svoj email!</Text>
+            }}>Dobrodošli nazad! Molimo unesite svoje podatke za prijavu.</Text>
           </View>
 
           <View style={{ display: 'flex', flexDirection: 'column' }}>
@@ -162,11 +169,12 @@ export default function Login() {
 
         <View style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <Button
-            title={loading ? "Ucitavanje..." : "Nastavi"}
+            title={loading ? "Učitavanje..." : "Nastavi"}
             textColor={colors.light.background}
-            onPress={handleLogin/*handleSignUp*/}
+            onPress={handleLogin}
+            disabled={loading || isNextDisabled()}
           />
-          </View>
+        </View>
       </View>
 
     </SafeAreaView>

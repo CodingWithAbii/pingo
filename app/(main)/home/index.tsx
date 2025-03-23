@@ -17,7 +17,7 @@ import { useCallback, useEffect, useState } from 'react';
 SplashScreen.preventAutoHideAsync();
 
 export default function Home() {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const colorScheme = useColorScheme();
   const background = colorScheme === 'light' ? layoutStyles.lightBackground : layoutStyles.darkBackground;
 
@@ -56,7 +56,7 @@ export default function Home() {
             fontSize: 24,
             color: colorScheme === 'light' ? '#162227' : '#DCE6EC'
           }}>
-            Dobrodošli, {user?.email}
+            Dobrodošli, {profile ? `${profile.first_name} ${profile.last_name}` : 'korisniče'}
           </Text>
         </View>
       </SafeAreaView>

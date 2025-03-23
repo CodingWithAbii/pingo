@@ -1,17 +1,20 @@
 import { useRouter, useSegments, useRootNavigation } from 'expo-router';
 import React, { useContext, useEffect, useState, useCallback } from 'react';
-import { getCurrentUser } from '@/lib/auth';
+import { getCurrentUser, getProfile } from '@/lib/auth';
 import { User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
+import type { Profile } from '@/lib/auth';
 
 interface AuthContextType {
   user: User | null;
+  profile: Profile | null;
   loading: boolean;
   refreshUser: () => Promise<void>;
 }
 
 const AuthContext = React.createContext<AuthContextType>({
   user: null,
+  profile: null,
   loading: true,
   refreshUser: async () => {},
 });
@@ -45,18 +48,28 @@ function useProtectedRoute(user: User | null) {
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [isInitialized, setIsInitialized] = useState(false);
 
   useProtectedRoute(user);
 
+  const loadProfile = async (userId: string) => {
+    const userProfile = await getProfile(userId);
+    setProfile(userProfile);
+  };
+
   const checkUser = useCallback(async () => {
     try {
       const currentUser = await getCurrentUser();
       setUser(currentUser);
+      if (currentUser) {
+        await loadProfile(currentUser.id);
+      }
     } catch (error) {
       console.error('Error checking auth state:', error);
       setUser(null);
+      setProfile(null);
     } finally {
       setLoading(false);
       setIsInitialized(true);
@@ -72,6 +85,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         checkUser();
       } else if (event === 'SIGNED_OUT') {
         setUser(null);
+        setProfile(null);
         setLoading(false);
       }
     });
@@ -83,6 +97,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const value = {
     user,
+    profile,
     loading,
     refreshUser: checkUser,
   };
