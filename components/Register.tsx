@@ -20,7 +20,7 @@ import { Image } from 'expo-image';
 import Statusbar from '@/components/ui/Statusbar'
 import MsgPage from './MsgPage';
 import OptPage from './OptPage';
-import { signIn, signUp } from '@/lib/auth';
+import { signUp } from '@/lib/auth';
 import CustomAlert, { showAlert } from '@/components/ui/CustomAlert';
 //import { supabase } from '@/lib/supabase';
 
@@ -75,7 +75,7 @@ export default function Register() {
     try {
       const user = await signUp(email, password, firstname, lastname, reason, experience, side);
       if (user) {
-        router.replace('/home');
+        router.replace('/new-course');
       }
     } catch (error: any) {
       let errorMessage = 'Greška prilikom registracije';

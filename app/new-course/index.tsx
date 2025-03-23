@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Text, View, StyleSheet, useColorScheme, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, useColorScheme, ScrollView } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
@@ -12,40 +12,123 @@ import {
   Rubik_700Bold,
   Rubik_800ExtraBold,
 } from '@expo-google-fonts/rubik';
-import Button from '@/components/ui/Button';
 import { layoutStyles } from '@/constants/layout';
-import { colors } from '@/constants/colors';
-import { ArrowLeft } from 'lucide-react-native';
 import { Image } from 'expo-image';
-import Chat from '@/components/ui/Chat'
 import CourseCard from '@/components/ui/CourseCard';
-// import CourseCard from '@/components/ui/CourseCard'
-import Statusbar from '@/components/ui/Statusbar'
 
-export default function index() {
+// CSV data
+const courses = [
+  {
+    ime: "Back-End Development",
+    opis: "Postanite back-end programer: Naučite JavaScript, razumite NodeJS, izgradite backend programe s Expressom i savladajte SQL",
+    kategorija: 0,
+  },
+  {
+    ime: "Front-End Development",
+    opis: "Otključajte web razvoj: Uronite duboko u HTML, CSS, i JavaScript, i savladajte React",
+    kategorija: 0,
+  },
+  {
+    ime: "Full-Stack Web Development",
+    opis: "Postanite full-stack programer: Naučite HTML, CSS, JavaScript i React kao i NodeJS, Express i SQL",
+    kategorija: 0,
+  },
+  {
+    ime: "Osnove Web Developmenta",
+    opis: "Savladajte HTML, CSS i JavaScript za izradu interaktivnih web stranica",
+    kategorija: 0,
+  },
+  {
+    ime: "Python za Data Science",
+    opis: "Iskoristite Python i biblioteke kao Pandas i NumPy za analizu podataka",
+    kategorija: 1,
+  },
+  {
+    ime: "Python za Machine Learning",
+    opis: "Primijenite tehnike strojnog učenja u Pythonu koristeći Scikit-learn",
+    kategorija: 1,
+  },
+  {
+    ime: "Data Visualization s R",
+    opis: "Izradite vizualizacije podataka u R pomoću ggplot2 i Shiny",
+    kategorija: 1,
+  },
+  {
+    ime: "Deep Learning s Tensorflow",
+    opis: "Kreirajte i trenirajte duboke neuronske mreže koristeći TensorFlow",
+    kategorija: 1,
+  },
+  {
+    ime: "Android Development s Kotlin",
+    opis: "Razvijajte Android aplikacije koristeći Kotlin s naprednim funkcijama",
+    kategorija: 2,
+  },
+  {
+    ime: "iOS Development s Swift",
+    opis: "Izradite aplikacije za iPhone i iPad pomoću Swift jezika",
+    kategorija: 2,
+  },
+  {
+    ime: "Cross-Platform Mobile Development s Flutter",
+    opis: "Razvijajte aplikacije koje funkcioniraju na Androidu i iOS-u koristeći Flutter",
+    kategorija: 2,
+  },
+  {
+    ime: "React Native za App Development",
+    opis: "Stvorite mobilne aplikacije za Android i iOS koristeći React Native",
+    kategorija: 2,
+  },
+  {
+    ime: "Uvod u Game Development sa Unity",
+    opis: "Razvijajte 2D igre koristeći Unity engine i C# jezik",
+    kategorija: 3,
+  },
+  {
+    ime: "Game Development sa Godot",
+    opis: "Iskoristite Godot engine za izradu 2D igara s interaktivnim elementima",
+    kategorija: 3,
+  },
+  {
+    ime: "Game Design i Prototyping",
+    opis: "Dizajnirajte igre, kreirajte izazovne mehanike i izradite prototipe",
+    kategorija: 3,
+  },
+  {
+    ime: "Napredni 3D Game Development sa Unreal Engine",
+    opis: "Razvijajte napredne 3D igre koristeći Unreal Engine",
+    kategorija: 3,
+  },
+  {
+    ime: "Uvod u Cybersecurity",
+    opis: "Savladajte osnove zaštite podataka, sigurnosnih protokola i upravljanja rizicima",
+    kategorija: 4,
+  },
+  {
+    ime: "Ethical Hacking i Penetration testiranje",
+    opis: "Testirajte sigurnost sustava koristeći alate poput Kali Linuxa i Metasploit",
+    kategorija: 4,
+  },
+  {
+    ime: "Network Security i Firewall",
+    opis: "Postavite firewalle, VPN-ove i druge sigurnosne alate za zaštitu mreža",
+    kategorija: 4,
+  },
+  {
+    ime: "Osnove Kriptografije",
+    opis: "Implementirajte osnovne tehnike enkripcije za zaštitu podataka",
+    kategorija: 4,
+  },
+];
 
-  interface CourseCard {
-    id: number;
-    title: string;
-    icon?: any; // Opcionalni prop za ikone
-  }
+const categoryTitles: { [key: number]: string } = {
+  0: "Web Development",
+  1: "Data Science",
+  2: "Mobile Development",
+  3: "Game Development",
+  4: "Cyber Security",
+};
 
-  // Sprečite automatsko skrivanje splash screen-a
-  SplashScreen.preventAutoHideAsync();
-
-  const colorScheme = useColorScheme();
-  const [appIsReady, setAppIsReady] = useState(false);
-  const router = useRouter();
-  const background = colorScheme === 'light' ? layoutStyles.lightBackground : layoutStyles.darkBackground;
-
-  const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
-      // Sakrijte splash screen kada su fontovi učitani
-      await SplashScreen.hideAsync();
-    }
-  }, [appIsReady]);
-
-  const { q } = useLocalSearchParams<{ q?: string }>();
+export default function HomeScreen() {
   const [fontsLoaded] = useFonts({
     Rubik_300Light,
     Rubik_400Regular,
@@ -55,169 +138,96 @@ export default function index() {
     Rubik_800ExtraBold,
   });
 
+  const colorScheme = useColorScheme();
+  const [appIsReady, setAppIsReady] = useState(false);
+  const router = useRouter();
+  const background = colorScheme === 'light' ? layoutStyles.lightBackground : layoutStyles.darkBackground;
+
+  // Group courses by category
+  const groupedCourses = courses.reduce((acc, course) => {
+    const category = course.kategorija;
+    if (!acc[category]) acc[category] = [];
+    acc[category].push(course);
+    return acc;
+  }, {} as { [key: number]: typeof courses });
+
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await SplashScreen.preventAutoHideAsync();
+        // Čekamo da se fontovi učitaju
+        if (fontsLoaded) {
+          setAppIsReady(true);
+        }
+      } catch (e) {
+        console.warn(e);
+      }
+    }
+    prepare();
+  }, [fontsLoaded]);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!fontsLoaded || !appIsReady) {
+    return null;
+  }
+
   const CategoryTitle = ({ title }: { title: string }) => (
     <Text style={colorScheme === 'dark' ? styles.categoryTitleDark : styles.categoryTitleLight}>
       {title}
     </Text>
   );
 
-  return (<View style={background}>
-    <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{ flex: 1, gap: 16, paddingBottom: 32 }}>
-          <View style={{ display: 'flex', gap: 14, alignItems: 'flex-start', flexDirection: 'row', marginTop: 4 }}>
-            <Image
-              source={require('../../assets/images/pingo-standing.png')}
-              style={{ width: 82, height: 85 }}
-            />
-            <Text style={colorScheme === 'dark' ? styles.welcomeTextDark : styles.welcomeTextLight}>
-              Što želiš naučiti? Uvijek možeš promijeniti smjer!
-            </Text>
+  return (
+    <View style={background}>
+      <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={{ flex: 1, gap: 16, paddingBottom: 32 }}>
+            <View style={styles.headerContainer}>
+              <Image
+                source={require('../../assets/images/pingo-standing.png')}
+                style={{ width: 82, height: 85 }}
+              />
+              <Text style={[
+                colorScheme === 'dark' ? styles.welcomeTextDark : styles.welcomeTextLight,
+                styles.welcomeText
+              ]}>
+                Što želiš naučiti? Uvijek možeš promijeniti smjer!
+              </Text>
+            </View>
+
+            {[0, 1, 2, 3, 4].map((categoryNumber) => (
+              groupedCourses[categoryNumber] && (
+                <View key={categoryNumber}>
+                  <CategoryTitle title={categoryTitles[categoryNumber]} />
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollView}>
+                    <View style={styles.courseContainer}>
+                      {groupedCourses[categoryNumber].map((course) => (
+                        <CourseCard
+                          key={course.ime}
+                          variant={colorScheme === 'dark' ? 'dark' : 'light'}
+                          title={course.ime}
+                          description={course.opis}
+                          image={require("../../assets/images/courses/frameworks.png")}
+                          onPress={() => router.replace(`/home?course=${encodeURIComponent(course.ime)}`)}
+                          duration="6 sedmica"
+                          lessons={24}
+                        />
+                      ))}
+                    </View>
+                  </ScrollView>
+                </View>
+              )
+            ))}
           </View>
-
-          <CategoryTitle title="Web Development" />
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollView}>
-            <View style={styles.courseContainer}>
-              <CourseCard
-                variant={colorScheme === 'dark' ? 'dark' : 'light'}
-                title="Osnovni web razvoj"
-                description="Nauči HTML, CSS i JavaScript od temelja"
-                image={require("../../assets/images/courses/HtmlCssJs.png")}
-                onPress={() => router.push('/home')}
-                duration="6 sedmica"
-                lessons={24}
-              />
-              <CourseCard
-                variant={colorScheme === 'dark' ? 'dark' : 'light'}
-                title="React Development"
-                description="Razvoj modernih web aplikacija sa React-om"
-                image={require("../../assets/images/courses/frameworks.png")}
-                onPress={() => console.log("React Course Clicked")}
-                duration="8 sedmica"
-                lessons={32}
-              />
-              <CourseCard
-                variant={colorScheme === 'dark' ? 'dark' : 'light'}
-                title="Backend Development"
-                description="Node.js i Express.js osnove"
-                image={require("../../assets/images/courses/frameworks.png")}
-                onPress={() => console.log("Backend Course Clicked")}
-                duration="10 sedmica"
-                lessons={40}
-              />
-            </View>
-          </ScrollView>
-
-          <CategoryTitle title="Programski Jezici" />
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollView}>
-            <View style={styles.courseContainer}>
-              <CourseCard
-                variant={colorScheme === 'dark' ? 'dark' : 'light'}
-                title="Python za početnike"
-                description="Osnove Python programiranja i algoritama"
-                image={require("../../assets/images/courses/frameworks.png")}
-                onPress={() => console.log("Python Course Clicked")}
-                duration="6 sedmica"
-                lessons={20}
-              />
-              <CourseCard
-                variant={colorScheme === 'dark' ? 'dark' : 'light'}
-                title="Java Programming"
-                description="Objektno orijentirano programiranje u Javi"
-                image={require("../../assets/images/courses/frameworks.png")}
-                onPress={() => console.log("Java Course Clicked")}
-                duration="12 sedmica"
-                lessons={48}
-              />
-              <CourseCard
-                variant={colorScheme === 'dark' ? 'dark' : 'light'}
-                title="C++ Fundamentals"
-                description="Sistemsko programiranje i optimizacija"
-                image={require("../../assets/images/courses/frameworks.png")}
-                onPress={() => console.log("C++ Course Clicked")}
-                duration="10 sedmica"
-                lessons={40}
-              />
-            </View>
-          </ScrollView>
-
-          <CategoryTitle title="Data Science" />
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollView}>
-            <View style={styles.courseContainer}>
-              <CourseCard
-                variant={colorScheme === 'dark' ? 'dark' : 'light'}
-                title="Machine Learning"
-                description="Osnove mašinskog učenja sa Python-om"
-                image={require("../../assets/images/courses/frameworks.png")}
-                onPress={() => console.log("ML Course Clicked")}
-                duration="12 sedmica"
-                lessons={36}
-              />
-              <CourseCard
-                variant={colorScheme === 'dark' ? 'dark' : 'light'}
-                title="Data Analysis"
-                description="Analiza podataka sa Pandas i NumPy"
-                image={require("../../assets/images/courses/frameworks.png")}
-                onPress={() => console.log("Data Analysis Clicked")}
-                duration="8 sedmica"
-                lessons={24}
-              />
-            </View>
-          </ScrollView>
-
-          <CategoryTitle title="Cyber Security" />
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollView}>
-            <View style={styles.courseContainer}>
-              <CourseCard
-                variant={colorScheme === 'dark' ? 'dark' : 'light'}
-                title="Ethical Hacking"
-                description="Osnove etičkog hakovanja i penetracijskog testiranja"
-                image={require("../../assets/images/courses/frameworks.png")}
-                onPress={() => console.log("Hacking Course Clicked")}
-                duration="10 sedmica"
-                lessons={30}
-              />
-              <CourseCard
-                variant={colorScheme === 'dark' ? 'dark' : 'light'}
-                title="Network Security"
-                description="Zaštita mreža i mrežnih protokola"
-                image={require("../../assets/images/courses/frameworks.png")}
-                onPress={() => console.log("Network Security Clicked")}
-                duration="8 sedmica"
-                lessons={24}
-              />
-            </View>
-          </ScrollView>
-
-          <CategoryTitle title="Game Development" />
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollView}>
-            <View style={styles.courseContainer}>
-              <CourseCard
-                variant={colorScheme === 'dark' ? 'dark' : 'light'}
-                title="Unity Game Dev"
-                description="Razvoj 2D i 3D igara u Unity Engine-u"
-                image={require("../../assets/images/courses/frameworks.png")}
-                onPress={() => console.log("Unity Course Clicked")}
-                duration="14 sedmica"
-                lessons={42}
-              />
-              <CourseCard
-                variant={colorScheme === 'dark' ? 'dark' : 'light'}
-                title="Unreal Engine"
-                description="Napredni razvoj igara sa Unreal Engine 5"
-                image={require("../../assets/images/courses/frameworks.png")}
-                onPress={() => console.log("Unreal Course Clicked")}
-                duration="16 sedmica"
-                lessons={48}
-              />
-            </View>
-          </ScrollView>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  </View>
+        </ScrollView>
+      </SafeAreaView>
+    </View>
   );
-
 }
 
 const styles = StyleSheet.create({
@@ -229,17 +239,27 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     gap: 12,
   },
+  headerContainer: {
+    display: 'flex',
+    gap: 14,
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    marginTop: 4
+  },
+  welcomeText: {
+    fontFamily: 'Rubik_400Regular',
+  },
   categoryTitleLight: {
     marginTop: 5,
     fontFamily: 'Rubik_700Bold',
-    paddingTop: 10,
+    paddingVertical: 10,
     fontSize: 20,
     color: '#4B4B4B',
   },
   categoryTitleDark: {
     marginTop: 5,
     fontFamily: 'Rubik_700Bold',
-    paddingTop: 10,
+    paddingVertical: 10,
     fontSize: 20,
     color: '#F1F7FB',
   },

@@ -75,19 +75,15 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     overflow: 'hidden',
     elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
   },
   containerLight: {
     backgroundColor: '#FFFFFF',
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#E5E5E5',
   },
   containerDark: {
     backgroundColor: '#1E2A31',
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#37464F',
   },
   image: {
