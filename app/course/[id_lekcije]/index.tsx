@@ -2,6 +2,7 @@ import { useAuth } from '@/components/providers/AuthProvider';
 import { supabase } from '@/lib/supabase';
 import { Redirect, router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect } from 'react'
+import { Text } from 'react-native';
 
 interface NavigationParams extends Record<string, string> {
     id_lekcije: string;
@@ -45,9 +46,7 @@ function index() {
         fetchLessons();
     }, [id_lekcije])
 
-    return (
-        <div>{id_lekcije}</div>
-    )
+    return null
 }
 
 export default index
