@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   roadMapContainer: {
-    width: 350,
+    maxWidth: 350,
     display: 'flex',
     flexDirection: 'column',
     gap: 16,
