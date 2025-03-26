@@ -1,0 +1,51 @@
+import { useAuth } from '@/components/providers/AuthProvider';
+import { supabase } from '@/lib/supabase';
+import { Redirect, router, useLocalSearchParams } from 'expo-router';
+import React, { useEffect } from 'react'
+
+interface NavigationParams extends Record<string, string> {
+    id_lekcije: string;
+    id_vjezbe: string;
+  }
+
+function index() {
+    const { user, profile } = useAuth();
+    const params = useLocalSearchParams();
+    const id_lekcije = Number(params.id_lekcije);
+
+    useEffect(()=> {
+        const fetchLessons = async () => {
+            console.log(id_lekcije)
+            const { data, error } = await supabase.rpc('get_next_exercise', {
+                p_user_id: user?.id,
+                p_idodlekcije: id_lekcije
+              });
+
+              if (error) {
+                console.error('Error fetching lessons:', error);
+              } else {
+                console.log(data)
+                if(data[0].vjezba_id !== null){
+                    console.log('radi')
+                    const params: NavigationParams = {
+                        id_lekcije: id_lekcije.toString(),
+                        id_vjezbe:data.vjezba_id 
+                      };
+                    router.replace({
+                        pathname: '/lesson/[id_vjezbe]',
+                        params
+                    })
+                }
+              }
+            
+        };
+
+        fetchLessons();
+    }, [id_lekcije])
+
+    return (
+        <div>{id_lekcije}</div>
+    )
+}
+
+export default index

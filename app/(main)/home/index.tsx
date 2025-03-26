@@ -36,7 +36,6 @@ interface LessonRoadMapItem {
 
 interface NavigationParams extends Record<string, string> {
   id_lekcije: string;
-  id_vjezbe: string;
 }
 
 export default function Home() {
@@ -132,11 +131,10 @@ export default function Home() {
       if (lessonId !== undefined) {
         const params: NavigationParams = {
           id_lekcije: lessonId.toString(),
-          id_vjezbe: '0' // Početna vježba
         };
 
         router.push({
-          pathname: '/course/[id_lekcije]/[id_vjezbe]',
+          pathname: '/course/[id_lekcije]',
           params
         });
       }
