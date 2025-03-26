@@ -15,7 +15,7 @@ const Chat = ({ children, variant }: ChatProps) => {
 
   return (
     <View style={styles.container}>
-      <Text style={variant === 'dark' ? styles.dark : styles.light }>{children}</Text>
+      <Text style={[variant === 'dark' ? styles.dark : styles.light, { textAlign: 'center' }]}>{children}</Text>
     </View>
   )
 };
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    
+    maxWidth: 350
   },
 
   dark: {

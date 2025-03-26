@@ -46,13 +46,15 @@ export default function Home() {
   const [lessonRoadMap, setLessonRoadMap] = useState<Lesson[]>([]);
   const [currentLesson, setCurrentLesson] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [imeKursta, setImeKursa] = useState('')
+  
 
   useEffect(() => {
     const fetchLessons = async () => {
       if (course) {
         setLoading(true);
        
-        const { data, error } = await supabase.rpc('get_lekcije_status', {
+        const { data, error } = await supabase.rpc('get_course_progress_with_names', {
           p_user_id: user?.id,
           kurs_id: course
         });
@@ -60,6 +62,7 @@ export default function Home() {
         if (error) {
           console.error('Error fetching lessons:', error);
         } else {
+          setImeKursa(data[0].imekursa)
           const formattedLessons = data.map((lesson: any, index: number) => {
             const isCompleted = lesson.status === 100;
 
@@ -90,6 +93,8 @@ export default function Home() {
     fetchLessons();
   }, [course]);
 
+
+
   const [fontsLoaded] = useFonts({
     Rubik_300Light,
     Rubik_400Regular,
@@ -102,13 +107,6 @@ export default function Home() {
 
   const points = 100;
 
-  const handleShopPress = () => {
-    // Logika za otvaranje shop-a
-  };
-
-  const handleSettingsPress = () => {
-    // Logika za otvaranje postavki
-  };
 
   useEffect(() => {
     if (fontsLoaded) {
@@ -148,11 +146,11 @@ export default function Home() {
     return(
       <View style={background}>
         <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
-          <Header points={points} onShopPress={handleShopPress} onSettingsPress={handleSettingsPress} />
+          <Header points={points} />
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.courseContainer}>
               <Text style={[styles.courseTitle, { color: colorScheme === 'light' ? '#162227' : '#DCE6EC' }]}>
-                {decodeURIComponent(course)}
+                {imeKursta}
               </Text>
               <RoadMap
                 lessons={lessonRoadMap}
@@ -168,17 +166,11 @@ export default function Home() {
     return (
       <View style={background}>
         <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
-          <Header points={points} onShopPress={handleShopPress} onSettingsPress={handleSettingsPress} />
-          <View style={{ flex: 1, justifyContent: 'space-between' }}>
-            <Text style={{ 
-              fontFamily: 'Rubik_600SemiBold', 
-              fontSize: 24,
-              color: colorScheme === 'light' ? '#162227' : '#DCE6EC'
-            }}>
-              Dobrodošli, {profile ? `${profile.first_name} ${profile.last_name}` : 'korisniče'}
+          <Header points={points} />
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ color: colorScheme === 'dark' ? '#F1F7FB' : '#162227' }}>
+              <Link href={'/home?course=1'}>Front-End Development</Link>
             </Text>
-            <Link href={'/home?course=1'}>link to 1</Link>
-            <Link href={'/home?course=2'}>link to 2</Link>
           </View>
         </SafeAreaView>
       </View>

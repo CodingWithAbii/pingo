@@ -12,6 +12,7 @@ import {
 } from '@expo-google-fonts/rubik';
 import * as SplashScreen from 'expo-splash-screen';
 import { useCallback, useEffect, useState } from 'react';
+import Header from '@/components/ui/Header';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -48,7 +49,8 @@ export default function Practice() {
   return (
     <View style={background}>
       <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
-        <View style={{ flex: 1, justifyContent: 'space-between' }}>
+      <Header points={100} />
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <Text style={{ 
             fontFamily: 'Rubik_600SemiBold', 
             fontSize: 24,

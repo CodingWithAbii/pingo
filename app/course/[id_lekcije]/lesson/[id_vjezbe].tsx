@@ -82,8 +82,9 @@ function Index() {
 
   useEffect(() => {
     const fetchLessons = async () => {
-      if(id_lekcije === 0){
-
+      if(id_vjezbe === 0){
+        console.log('radi')
+        router.replace(`/home`)
       }else{
       const { data, error } = await supabase
         .rpc('get_vjezba_with_status_next_and_kurs', {

@@ -13,6 +13,7 @@ import {
 import * as SplashScreen from 'expo-splash-screen';
 import { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '@/components/providers/AuthProvider';
+import Header from '@/components/ui/Header';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -50,7 +51,8 @@ export default function Profile() {
   return (
     <View style={background}>
       <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
-        <View style={{ flex: 1, justifyContent: 'space-between' }}>
+      <Header points={100} />
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <Text style={{ 
             fontFamily: 'Rubik_600SemiBold', 
             fontSize: 24,

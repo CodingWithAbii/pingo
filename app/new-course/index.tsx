@@ -19,13 +19,13 @@ import CourseCard from '@/components/ui/CourseCard';
 // CSV data
 const courses = [
   {
-    ime: "Back-End Development",
-    opis: "Postanite back-end programer: Naučite JavaScript, razumite NodeJS, izgradite backend programe s Expressom i savladajte SQL",
+    ime: "Front-End Development",
+    opis: "Otključajte web razvoj: Uronite duboko u HTML, CSS, i JavaScript, i savladajte React",
     kategorija: 0,
   },
   {
-    ime: "Front-End Development",
-    opis: "Otključajte web razvoj: Uronite duboko u HTML, CSS, i JavaScript, i savladajte React",
+    ime: "Back-End Development",
+    opis: "Postanite back-end programer: Naučite JavaScript, razumite NodeJS, izgradite backend programe s Expressom i savladajte SQL",
     kategorija: 0,
   },
   {
@@ -206,14 +206,14 @@ export default function HomeScreen() {
                   <CategoryTitle title={categoryTitles[categoryNumber]} />
                   <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollView}>
                     <View style={styles.courseContainer}>
-                      {groupedCourses[categoryNumber].map((course) => (
+                      {groupedCourses[categoryNumber].map((course, index) => (
                         <CourseCard
                           key={course.ime}
                           variant={colorScheme === 'dark' ? 'dark' : 'light'}
                           title={course.ime}
                           description={course.opis}
                           image={require("../../assets/images/courses/frameworks.png")}
-                          onPress={() => router.replace(`/home?course=${encodeURIComponent(course.ime)}`)}
+                          onPress={() => router.replace(`/home?course=${index+1}`)}
                           duration="6 sedmica"
                           lessons={24}
                         />

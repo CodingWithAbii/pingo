@@ -5,29 +5,21 @@ import { colors } from '@/constants/colors';
 
 interface HeaderProps {
   points: number;
-  onShopPress: () => void;
-  onSettingsPress: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ points, onShopPress, onSettingsPress }) => {
+const Header: React.FC<HeaderProps> = ({ points }) => {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
   return (
     <View style={[styles.container, isDark ? styles.containerDark : styles.containerLight]}>
-      <View style={styles.pointsContainer}>
-        <Flame size={24} color={isDark ? '#F1F7FB' : '#162227'} />
-        <Text style={[styles.pointsText, { color: isDark ? '#F1F7FB' : '#162227' }]}>
-          {points} Poena
-        </Text>
-      </View>
+      <Text style={{ color: colors.primary, fontFamily: 'Rubik_700Bold', fontSize: 20 }}>PINGO</Text>
       <View style={styles.actionsContainer}>
-        <TouchableOpacity onPress={onShopPress}>
-          <Text style={[styles.actionText, { color: isDark ? '#F1F7FB' : '#162227' }]}>Shop</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={onSettingsPress}>
-          <Text style={[styles.actionText, { color: isDark ? '#F1F7FB' : '#162227' }]}>Settings</Text>
-        </TouchableOpacity>
+        <View style={styles.pointsContainer}>
+          <Flame size={20} color={isDark ? '#F1F7FB' : '#162227'} />
+          <Text style={[styles.pointsText, { color: isDark ? '#F1F7FB' : '#162227' }]}>100</Text>
+        
+        </View>
       </View>
     </View>
   );
@@ -39,6 +31,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 16,
+    paddingBottom: 8
   },
   containerLight: {
     backgroundColor: '#FFFFFF',
@@ -53,7 +46,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   pointsText: {
-    marginLeft: 8,
+    marginLeft: 4,
     fontSize: 16,
     fontFamily: 'Rubik_500Medium',
   },
