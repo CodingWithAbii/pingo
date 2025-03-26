@@ -15,7 +15,7 @@ function index() {
 
     useEffect(()=> {
         const fetchLessons = async () => {
-            console.log(id_lekcije)
+            
             const { data, error } = await supabase.rpc('get_next_exercise', {
                 p_user_id: user?.id,
                 p_idodlekcije: id_lekcije
@@ -25,16 +25,18 @@ function index() {
                 console.error('Error fetching lessons:', error);
               } else {
                 console.log(data)
-                if(data[0].vjezba_id !== null){
-                    console.log('radi')
+                if(data.length > 0){
+                    
                     const params: NavigationParams = {
                         id_lekcije: id_lekcije.toString(),
-                        id_vjezbe:data.vjezba_id 
+                        id_vjezbe:(data[0].vjezba_id).toString() 
                       };
                     router.replace({
-                        pathname: '/lesson/[id_vjezbe]',
+                        pathname: '/course/[id_lekcije]/lesson/[id_vjezbe]',
                         params
                     })
+                } else {
+                  router.replace(`/home`)
                 }
               }
             

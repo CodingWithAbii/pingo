@@ -1,4 +1,4 @@
-import { ArrowLeft } from 'lucide-react-native';
+import { ArrowLeft, X } from 'lucide-react-native';
 import React from 'react'
 import { TouchableOpacity, View, ViewProps } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -17,16 +17,19 @@ type MsgPageProps = ViewProps & {
     next: any;
     onLayoutRootView: any;
     disabled?: boolean;
+    isExit?: boolean;
   };
 
-function MsgPage({variant, status, content, back, next, onLayoutRootView, disabled = false}: MsgPageProps) {
+function MsgPage({variant, status, content, back, next, onLayoutRootView, disabled = false, isExit= false}: MsgPageProps) {
   return (
     <View style={variant === 'light' ? layoutStyles.lightBackground : layoutStyles.darkBackground}>
         <SafeAreaView style={layoutStyles.container} onLayout={onLayoutRootView}>
           <View style={{ flex: 1, justifyContent: 'space-between' }}>
             <View style={{ display: 'flex', gap: 24, alignItems: 'center', flexDirection: 'row', width:'100%'}}>
               <TouchableOpacity onPress={back} >
-                <ArrowLeft style={{ cursor: 'pointer' }} color={variant === 'light' ? '#AFAFAF' : '#74797A'} />
+                {!isExit ? <ArrowLeft style={{ cursor: 'pointer' }} color={variant === 'light' ? '#AFAFAF' : '#74797A'} /> :
+                <X style={{ cursor: 'pointer' }} color={variant === 'light' ? '#AFAFAF' : '#74797A'} />
+                }
               </TouchableOpacity>
               {status && <Statusbar variant={variant === 'dark' ? 'dark' : 'light'} value={status}/>}
             </View>

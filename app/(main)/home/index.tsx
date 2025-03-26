@@ -64,8 +64,7 @@ export default function Home() {
             const isCompleted = lesson.status === 100;
 
             // Provjeravamo da li je lekcija otključana
-            const isLocked = lesson.status <= 0 && !(index > 0 && data[index - 1].status === 100);
-
+            const isLocked = index > 0 && (lesson.status <= 0 && data[index - 1].status !== 100);
             return {
               title: lesson.imelekcije,
               isLocked: isLocked,
@@ -178,7 +177,8 @@ export default function Home() {
             }}>
               Dobrodošli, {profile ? `${profile.first_name} ${profile.last_name}` : 'korisniče'}
             </Text>
-            <Link href={'/home?course=lol'}>link</Link>
+            <Link href={'/home?course=1'}>link to 1</Link>
+            <Link href={'/home?course=2'}>link to 2</Link>
           </View>
         </SafeAreaView>
       </View>
